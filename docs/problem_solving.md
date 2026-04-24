@@ -23,3 +23,16 @@
 1. Check that index is within [0, *size] and size < MAX_1D
 2. Shift all elements from after position index left by one slot
 3. Overwrites any previous data at position index
+
+## function: linearSearch
+
+### problem understanding
+- Input:  arr[] — the array, size — current element count,
+          value — element to search for
+- output: returns index on success, -1 when not found;
+
+### ALgorithm
+1. loops through all elements of the array until it finds an element that
+   matches the wanted value
+2. when found, the loop returns the index of the matching value
+3. when not found, function returns an error code (-1)

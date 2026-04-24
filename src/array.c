@@ -62,6 +62,7 @@ int binarySearch(int arr[], int size, int value) {
     return -1; // not found
 }
 
+/* Bubble sort: */
 int bubbleSort(int arr[], int size) {
     if (size <= 1) return 0; // already sorted
     for (int i = 0; i < size - 1; i++) {
