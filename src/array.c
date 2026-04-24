@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static void merge(int arr[], int left, int mid, int right);
+static int partition(int arr[], int low, int high);
+
 /*--- 1D Array Operations ---*/
 
 /* Initialize: set size to 0 — array is logically empty */
@@ -124,12 +127,124 @@ void insertionSort(int arr[], int size) {
     }
 }
 
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        mergeSort(arr, left, mid);   
+        mergeSort(arr, mid + 1, right); 
+        merge(arr, left, mid, right); 
+    }
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1); 
+        quickSort(arr, pi + 1, high); 
+    }
+}
+
+int sumArray(int arr[], int size) {
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        sum = sum + arr[i];
+    }
+
+    return sum;
+}
+
+int findMax(int arr[], int size) {
+    if (size <= 0) return 0;
+    int max = arr[0];         
+
+    for (int i = 1; i < size; i++) { 
+        if (arr[i] > max) {  
+            max = arr[i];    
+        }
+    }
+
+    return max;              
+}
+
+int findMin(int arr[], int size) {
+    if (size <= 0) return 0;
+    int min = arr[0];         
+
+    for (int i = 1; i < size; i++) {  
+        if (arr[i] < min) {  
+            min = arr[i];    
+        }
+    }
+
+    return min;              
+}
+
+void rotateLeft(int arr[], int size, int k) {
+    if (size <= 0) return;
+    k = k % size;
+
+    for (int i = 0; i < k; i++) {
+        int first = arr[0];
+
+        for (int j = 0; j < size - 1; j++) {
+            arr[j] = arr[j + 1];
+        }
+
+        arr[size - 1] = first;
+    }
+}
+
+void mergeSortedArrays(int a[], int na, int b[], int nb, int out[]) {
+    int i = 0, j = 0, k = 0;
+
+    while (i < na && j < nb) {
+        if (a[i] < b[j]) {
+            out[k++] = a[i++];
+        } else {
+            out[k++] = b[j++];
+        }
+    }
+
+    while (i < na) {
+        out[k++] = a[i++];
+    }
+
+    while (j < nb) {
+        out[k++] = b[j++];
+    }
+}
 
 /*--- 2D Array Operations ---*/
 void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols) {
-    (void)matrix;
-    *rows = 0;
-    *cols = 0;
+    printf("Enter matrix rows (1-%d): ", MAX_ROWS);
+    if (scanf("%d", rows) <= 0 || *rows < 1 || *rows > MAX_ROWS) {
+        printf("Invalid row count\n");
+        *rows = 0;
+        *cols = 0;
+        return;
+    }
+
+    printf("Enter matrix cols (1-%d): ", MAX_COLS);
+    if (scanf("%d", cols) <= 0 || *cols < 1 || *cols > MAX_COLS) {
+        printf("Invalid column count\n");
+        *rows = 0;
+        *cols = 0;
+        return;
+    }
+
+    printf("Enter %d values:\n", (*rows) * (*cols));
+    for (int i = 0; i < *rows; i++) {
+        for (int j = 0; j < *cols; j++) {
+            if (scanf("%d", &matrix[i][j]) <= 0) {
+                printf("Invalid matrix input\n");
+                *rows = i;
+                *cols = (i == 0) ? j : *cols;
+                return;
+            }
+        }
+    }
 }
 
 void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
@@ -179,6 +294,52 @@ void sortRows(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
                     matrix[i][j + 1] = temp;
                 }
     }
+}
+
+static void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    int* L = (int*)malloc((size_t)n1 * sizeof(int));
+    int* R = (int*)malloc((size_t)n2 * sizeof(int));
+    if (L == NULL || R == NULL) {
+        free(L);
+        free(R);
+        return;
+    }
+
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) arr[k++] = L[i++];
+        else arr[k++] = R[j++];
+    }
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+
+    free(L);
+    free(R);
+}
+
+static int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return i + 1;
 }
 
 /*

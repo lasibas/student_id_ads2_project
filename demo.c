@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include "include/array.h"
 
-void arraySortingMenu() {
-    int choice = 1, arr[MAX_1D], size = 0;
+void arraySortingMenu(int arr[], int size) {
+    int choice = 1;
+    if (size <= 0) {
+        printf("Array is empty. Add elements first.\n");
+        return;
+    }
     do {
         printf("\n=== SORTING MENU ===\n");
-        printf("1. Bubble Sort\n2. Selection Sort\n3. Insertion Sort\n0. Back\nChoice: ");
+        printf("1. Bubble Sort\n2. Selection Sort\n3. Insertion Sort\n4. Merge Sort\n5. Quick Sort\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -23,12 +27,26 @@ void arraySortingMenu() {
                 printf("Sorted array: ");
                 printArray(arr, size);
                 break;
+            case 4:
+                mergeSort(arr, 0, size - 1);
+                printf("Sorted array: ");
+                printArray(arr, size);
+                break;
+            case 5:
+                quickSort(arr, 0, size - 1);
+                printf("Sorted array: ");
+                printArray(arr, size);
+                break;
         }
     } while (choice != 0);
 }
 
-void arraySearchingMenu() {
-    int choice = 1, arr[MAX_1D], size = 0, value;
+void arraySearchingMenu(int arr[], int size) {
+    int choice = 1, value;
+    if (size <= 0) {
+        printf("Array is empty. Add elements first.\n");
+        return;
+    }
     do {
         printf("\n=== SEARCHING MENU ===\n");
         printf("1. Linear Search\n2. Binary Search\n0. Back\nChoice: ");
@@ -37,16 +55,21 @@ void arraySearchingMenu() {
             case 1:
                 printf("Value to search: ");
                 scanf("%d", &value);
-                int pos = linearSearch(arr, size, value);
-                if (pos != -1) printf("Found at index %d\n", pos);
-                else printf("Not found\n");
+                {
+                    int pos = linearSearch(arr, size, value);
+                    if (pos != -1) printf("Found at index %d\n", pos);
+                    else printf("Not found\n");
+                }
                 break;
             case 2:
+                bubbleSort(arr, size);
                 printf("Value to search: ");
                 scanf("%d", &value);
-                int pos2 = binarySearch(arr, size, value);
-                if (pos2 != -1) printf("Found at index %d\n", pos2);
-                else printf("Not found\n");
+                {
+                    int pos2 = binarySearch(arr, size, value);
+                    if (pos2 != -1) printf("Found at index %d\n", pos2);
+                    else printf("Not found\n");
+                }
                 break;
         }
     } while (choice != 0);
@@ -82,10 +105,10 @@ void staticArrayMenu() {
                 printArray(arr, size);
                 break;
             case 4:
-                arraySortingMenu();
+                arraySortingMenu(arr, size);
                 break;
             case 5:
-                arraySearchingMenu();
+                arraySearchingMenu(arr, size);
                 break;
         }
     } while (choice != 0);
