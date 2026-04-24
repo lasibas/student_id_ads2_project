@@ -1,5 +1,41 @@
 #include <stdio.h>
 #include "include/array.h"
+#include "include/file_utils.h"
+
+void fileUtilsMenu() {
+    int choice = 1;
+    char filename[MAX_STRING_LEN];
+    Record r;
+    do {
+        printf("\n=== FILE UTILITIES MENU ===\n");
+        printf("1. Create binary file\n2. Write record to file\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                printf("Enter filename: ");
+                scanf("%s", filename);
+                if (createBinaryFile(filename) == 0)
+                    printf("Binary file '%s' created successfully.\n", filename);
+                else
+                    printf("Failed to create file '%s'.\n", filename);
+                break;
+            case 2:
+                printf("Enter filename: ");
+                scanf("%s", filename);
+                printf("Enter record ID: ");
+                scanf("%d", &r.id);
+                printf("Enter record name: ");
+                scanf("%s", r.name);
+                printf("Enter record note: ");
+                scanf("%f", &r.note);
+                if (writeRecord(filename, &r) == 0)
+                    printf("Record written to '%s' successfully.\n", filename);
+                else
+                    printf("Failed to write record to '%s'.\n", filename);
+                break;
+        }
+    } while (choice != 0);
+}
 
 void arraySortingMenu(int arr[], int size) {
     int choice = 1;
@@ -238,6 +274,7 @@ int main() {
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1: arrayMenu(); break;
+            case 5: fileUtilsMenu(); break;
             /* ... */
         }
     } while (choice != 0);
@@ -252,4 +289,8 @@ int main() {
 #define ADS2_EMBEDDED_ARRAY
 #include "src/array.c"
 #undef ADS2_EMBEDDED_ARRAY
+
+#define ADS2_EMBEDDED_FILE_UTILS
+#include "src/file_utils.c"
+#undef ADS2_EMBEDDED_FILE_UTILS
 #endif

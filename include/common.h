@@ -5,6 +5,12 @@
 #define MAX_ROWS        20
 #define MAX_COLS        20
 #define MAX_STRING_LEN  256
+/*Record*/
+typedef struct {
+    int id;
+    char name[50];
+    float note;
+} Record;
 
 /* Node for singly linked list */
 typedef struct Node {
