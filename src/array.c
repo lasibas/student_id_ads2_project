@@ -10,6 +10,23 @@ void initArray(int arr[], int* size) {
     *size = 0;
 }
 
+void arrayInput(int arr[], int* size) {
+    printf("Enter number of elements (max %d): ", MAX_1D);
+    if (scanf("%d", size) <= 0 || *size < 0 || *size > MAX_1D) {
+        printf("Invalid size\n");
+        *size = 0;
+        return;
+    }
+    printf("Enter %d integers:\n", *size);
+    for (int i = 0; i < *size; i++) {
+        if (scanf("%d", &arr[i]) <= 0) {
+            printf("Invalid input\n");
+            *size = i; // set size to number of successfully read elements
+            return;
+        }
+    }
+}
+
 /* Print in [a, b, c] format */
 void printArray(int arr[], int size) {
     printf("[");
@@ -141,3 +158,35 @@ void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS
         }
     }
 }
+
+int isSymmetric(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
+    if (rows != cols) return 0;
+
+    for (int i = 0; i < rows; i++)
+        for (int j = i + 1; j < cols; j++)
+            if (matrix[i][j] != matrix[j][i])
+                return 0;  
+    return 1;
+}
+
+void sortRows(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int pass = 0; pass < cols - 1; pass++)
+            for (int j = 0; j < cols - 1 - pass; j++)
+                if (matrix[i][j] > matrix[i][j + 1]) {
+                    int temp = matrix[i][j];
+                    matrix[i][j] = matrix[i][j + 1];
+                    matrix[i][j + 1] = temp;
+                }
+    }
+}
+
+/*
+ * Some IDE actions compile this file directly as an executable.
+ * Provide a fallback main only for that mode.
+ */
+#if !defined(ADS2_SEPARATE_COMPILATION) && !defined(ADS2_EMBEDDED_ARRAY)
+int main(void) {
+    return 0;
+}
+#endif

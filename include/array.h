@@ -4,6 +4,7 @@
 
 /* --- 1D Array --- */
 void  initArray(int arr[], int* size);
+void  arrayInput(int arr[], int* size);
 void  printArray(int arr[], int size);
 int   insertAt(int arr[], int* size, int index, int value);
 int   deleteAt(int arr[], int* size, int index);
@@ -19,4 +20,6 @@ void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols);
 void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
 void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int transposed[MAX_ROWS][MAX_COLS]);
 void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int rows, int cols);
+void sortRows(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
+int isSymmetric(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
 #endif

@@ -54,6 +54,7 @@ void arraySearchingMenu() {
 
 void staticArrayMenu() {
     int choice = 1, arr[MAX_1D], size = 0, value, index;
+    arrayInput(arr, &size);
     do {
         printf("\n=== STATIC ARRAY MENU ===\n");
         printf("1. Insert at index\n2. Delete at index\n3. Print array\n4. sort array\n5. search array\n0. Back\nChoice: ");
@@ -109,6 +110,7 @@ void matrixMenu() {
                 printMatrix(transposed, cols, rows);
                 break;
             case 4:
+            
                 addMatrices(matrix, matrix, transposed, rows, cols);
                 printf("Result of adding matrix to itself:\n");
                 printMatrix(transposed, rows, cols);
@@ -157,5 +159,7 @@ int main() {
  * Include array implementation in that mode so linking still succeeds.
  */
 #ifndef ADS2_SEPARATE_COMPILATION
+#define ADS2_EMBEDDED_ARRAY
 #include "src/array.c"
+#undef ADS2_EMBEDDED_ARRAY
 #endif
