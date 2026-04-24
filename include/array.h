@@ -9,4 +9,5 @@ int   insertAt(int arr[], int* size, int index, int value);
 int   deleteAt(int arr[], int* size, int index);
 int   linearSearch(int arr[], int size, int value);
 int   binarySearch(int arr[], int size, int value);
+int   bubbleSort(int arr[], int size);
 #endif
