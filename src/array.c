@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*--- 1D Array Operations ---*/
+
 /* Initialize: set size to 0 — array is logically empty */
 void initArray(int arr[], int* size) {
     *size = 0;
@@ -76,4 +78,30 @@ int bubbleSort(int arr[], int size) {
         }
     }
     return 0;
+}
+
+
+/*--- 2D Array Operations ---*/
+void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols) {
+    *rows = 0;
+    *cols = 0;
+}
+
+void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        printf("[");
+        for (int j = 0; j < cols; j++) {
+            printf("%d", matrix[i][j]);
+            if (j < cols - 1) printf(", ");
+        }
+        printf("]\n");
+    }
+}
+
+void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int transposed[MAX_ROWS][MAX_COLS]) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            transposed[j][i] = matrix[i][j];
+        }
+    }
 }

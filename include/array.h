@@ -10,4 +10,10 @@ int   deleteAt(int arr[], int* size, int index);
 int   linearSearch(int arr[], int size, int value);
 int   binarySearch(int arr[], int size, int value);
 int   bubbleSort(int arr[], int size);
+
+
+/* --- 2D Array --- */
+void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols);
+void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
+void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int transposed[MAX_ROWS][MAX_COLS]);
 #endif
