@@ -6,6 +6,7 @@
 
 /* Initialize: set size to 0 — array is logically empty */
 void initArray(int arr[], int* size) {
+    (void)arr;
     *size = 0;
 }
 
@@ -80,9 +81,36 @@ int bubbleSort(int arr[], int size) {
     return 0;
 }
 
+void selectionSort(int arr[], int size, int minpos) {
+    for (int i = 0; i < size - 1; i++) {
+         minpos = i;
+        for (int j = i + 1; j < size; j++)
+            if (arr[j] < arr[minpos])
+                minpos = j;
+ 
+        int temp     = arr[i];
+        arr[i]       = arr[minpos];
+        arr[minpos]  = temp;
+    }
+}
+
+void insertionSort(int arr[], int size) {
+    for (int i = 1; i < size; i++) {
+        int temp = arr[i]; 
+        int j   = i - 1;
+ 
+        while (j >= 0 && arr[j] > temp) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = temp; 
+    }
+}
+
 
 /*--- 2D Array Operations ---*/
 void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols) {
+    (void)matrix;
     *rows = 0;
     *cols = 0;
 }

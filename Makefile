@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -g3
+CFLAGS := -Wall -Wextra -g3 -DADS2_SEPARATE_COMPILATION
 TARGET := output/demo
 SOURCES := demo.c src/array.c
 

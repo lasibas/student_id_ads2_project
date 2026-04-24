@@ -10,6 +10,8 @@ int   deleteAt(int arr[], int* size, int index);
 int   linearSearch(int arr[], int size, int value);
 int   binarySearch(int arr[], int size, int value);
 int   bubbleSort(int arr[], int size);
+void  selectionSort(int arr[], int size, int minpos);
+void  insertionSort(int arr[], int size);
 
 
 /* --- 2D Array --- */
