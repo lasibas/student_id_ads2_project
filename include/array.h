@@ -18,4 +18,5 @@ void  insertionSort(int arr[], int size);
 void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols);
 void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
 void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int transposed[MAX_ROWS][MAX_COLS]);
+void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int rows, int cols);
 #endif

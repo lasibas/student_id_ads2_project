@@ -94,7 +94,7 @@ void matrixMenu() {
     int choice = 1, matrix[MAX_ROWS][MAX_COLS], transposed[MAX_ROWS][MAX_COLS], rows = 0, cols = 0;
     do {
         printf("\n=== MATRIX MENU ===\n");
-        printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n0. Back\nChoice: ");
+        printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n4. Add matrices\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -107,6 +107,11 @@ void matrixMenu() {
                 transposeMatrix(matrix, rows, cols, transposed);
                 printf("Transposed matrix:\n");
                 printMatrix(transposed, cols, rows);
+                break;
+            case 4:
+                addMatrices(matrix, matrix, transposed, rows, cols);
+                printf("Result of adding matrix to itself:\n");
+                printMatrix(transposed, rows, cols);
                 break;
         }
     } while (choice != 0);
