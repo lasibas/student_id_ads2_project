@@ -80,7 +80,7 @@ void staticArrayMenu() {
     arrayInput(arr, &size);
     do {
         printf("\n=== STATIC ARRAY MENU ===\n");
-        printf("1. Insert at index\n2. Delete at index\n3. Print array\n4. sort array\n5. search array\n0. Back\nChoice: ");
+        printf("1. Insert at index\n2. Delete at index\n3. Print array\n4. sort array\n5. search array\n6. sum array\n7. find minimum\n8. find maximum\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -110,6 +110,15 @@ void staticArrayMenu() {
             case 5:
                 arraySearchingMenu(arr, size);
                 break;
+            case 6:
+                printf("Sum of array elements: %d\n", sumArray(arr, size));
+                break;
+            case 7:
+                printf("Minimum element: %d\n", findMin(arr, size));
+                break;
+            case 8:
+                printf("Maximum element: %d\n", findMax(arr, size));
+                break;
         }
     } while (choice != 0);
 }
@@ -118,7 +127,7 @@ void matrixMenu() {
     int choice = 1, matrix[MAX_ROWS][MAX_COLS], transposed[MAX_ROWS][MAX_COLS], rows = 0, cols = 0;
     do {
         printf("\n=== MATRIX MENU ===\n");
-        printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n4. Add matrices\n0. Back\nChoice: ");
+        printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n4. Add matrices\n5. isSymmetric\n6. sort rows\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -137,6 +146,18 @@ void matrixMenu() {
                 addMatrices(matrix, matrix, transposed, rows, cols);
                 printf("Result of adding matrix to itself:\n");
                 printMatrix(transposed, rows, cols);
+                break;
+            case 5:
+                if (isSymmetric(matrix, rows, cols)) {
+                    printf("Matrix is symmetric.\n");
+                } else {
+                    printf("Matrix is not symmetric.\n");
+                }
+                break;
+            case 6:
+                sortRows(matrix, rows, cols);
+                printf("Matrix with sorted rows:\n");
+                printMatrix(matrix, rows, cols);
                 break;
         }
     } while (choice != 0);
