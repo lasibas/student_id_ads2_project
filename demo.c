@@ -123,11 +123,49 @@ void staticArrayMenu() {
     } while (choice != 0);
 }
 
+void dynamicArrayMenu() {
+    int choice = 1, size;
+    int* dynArr = NULL;
+    do{
+        printf("\n=== DYNAMIC ARRAY MENU ===\n");
+        printf("1. Create dynamic array\n2. Fill dynamic array\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                printf("Size of dynamic array: ");
+                scanf("%d", &size);
+                {
+                    dynArr = createDynamicArray(size);
+                    if (dynArr != NULL) {
+                        printf("Dynamic array of size %d created.\n", size);
+                    }
+                }
+                break;
+            case 2:
+                {
+                    if (dynArr != NULL) {
+                        fillDynamicArray(dynArr, size);
+                        printf("You entered: ");
+                        printArray(dynArr, size);
+                    }
+                }
+                break;
+            case 0:
+                if (dynArr != NULL) {
+                    freeArray(dynArr);
+                    printf("Dynamic array memory freed.\n");
+                }
+                break;
+            
+        }
+    }while (choice != 0);
+}
+
 void matrixMenu() {
     int choice = 1, matrix[MAX_ROWS][MAX_COLS], transposed[MAX_ROWS][MAX_COLS], rows = 0, cols = 0;
     do {
         printf("\n=== MATRIX MENU ===\n");
-        printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n4. Add matrices\n5. isSymmetric\n6. sort rows\n0. Back\nChoice: ");
+        printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n4. Add matrices\n5. Multiply matrices\n6. Sum diagonals/anti-diagonals\n7. sort rows\n8. isSymmetric\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -148,16 +186,24 @@ void matrixMenu() {
                 printMatrix(transposed, rows, cols);
                 break;
             case 5:
+                multiplyMatrices(matrix, matrix, transposed, rows);
+                printf("Result of multiplying matrix by itself:\n");
+                printMatrix(transposed, rows, cols);
+                break;
+            case 6:
+                sumDiagonal_antiDiagonal(matrix, rows);
+                break;
+            case 7:
+                sortRows(matrix, rows, cols);
+                printf("Matrix with sorted rows:\n");
+                printMatrix(matrix, rows, cols);
+                break;
+            case 8:
                 if (isSymmetric(matrix, rows, cols)) {
                     printf("Matrix is symmetric.\n");
                 } else {
                     printf("Matrix is not symmetric.\n");
                 }
-                break;
-            case 6:
-                sortRows(matrix, rows, cols);
-                printf("Matrix with sorted rows:\n");
-                printMatrix(matrix, rows, cols);
                 break;
         }
     } while (choice != 0);
@@ -174,7 +220,7 @@ void arrayMenu() {
                 staticArrayMenu();
                 break;
             case 2:
-                printf("Dynamic array features not implemented yet.\n");
+                dynamicArrayMenu();
                 break;
             case 3:
                 matrixMenu();

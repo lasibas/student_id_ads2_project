@@ -274,6 +274,16 @@ void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS
     }
 }
 
+void multiplyMatrices(int MatA[][100], int MatB[][100], int result[][100], int n) {
+    int i, j, k;
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++) {
+            result[i][j] = 0;
+            for (k = 0; k < n; k++)
+                result[i][j] += MatA[i][k] * MatB[k][j];
+        }
+}
+
 int isSymmetric(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     if (rows != cols) return 0;
 
@@ -322,6 +332,21 @@ static void merge(int arr[], int left, int mid, int right) {
     free(R);
 }
 
+int sumDiagonal_antiDiagonal(int m[][50], int n) {
+    int sum = 0;
+
+    for (int i = 0; i < n; i++) {
+        sum += m[i][i];         
+        sum += m[i][n - 1 - i]; 
+    }
+
+    if (n % 2 != 0)
+        sum -= m[n / 2][n / 2]; //this used to fix the center element being added twice in case of odd n
+
+    printf("Sum of diagonals/anti-diagonals: %d\n", sum);
+    return sum;
+}
+
 static int partition(int arr[], int low, int high) {
     int pivot = arr[high];
     int i = low - 1;
@@ -341,6 +366,32 @@ static int partition(int arr[], int low, int high) {
 
     return i + 1;
 }
+
+/*Dynamic arrays*/
+
+int* createDynamicArray(int size){
+    int* array = malloc(size * sizeof(int));
+    if (array == NULL) {
+        printf("Memory allocation failed\n");
+        return NULL;
+    }
+    return array;
+}
+
+void fillDynamicArray(int* array, int size) {
+    printf("Enter %d integers:\n", size);
+    for (int i = 0; i < size; i++) {
+        if (scanf("%d", &array[i]) <= 0) {
+            printf("Invalid input\n");
+            return;
+        }
+    }
+}
+
+void freeArray(int* arr) {
+    free(arr);
+}
+
 
 /*
  * Some IDE actions compile this file directly as an executable.
