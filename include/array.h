@@ -18,6 +18,8 @@ void  quickSort(int arr[], int low, int high);
 int   sumArray(int arr[], int size);
 int   findMax(int arr[], int size);
 int   findMin(int arr[], int size);
+double averageArray(int numbers[], int size);
+void  reverseArray(int numbers[], int size);
 void  mergeSortedArrays(int a[], int na, int b[], int nb, int out[]);
 void  rotateLeft(int arr[], int size, int k);
 
@@ -36,4 +38,5 @@ int  sumDiagonal_antiDiagonal(int m[][50], int n);
 int* createDynamicArray(int size);
 void fillDynamicArray(int* array, int size);
 void freeArray(int* arr);
+int* resizeArray(int* arr, int newCapacity);
 #endif

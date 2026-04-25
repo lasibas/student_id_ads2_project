@@ -181,6 +181,37 @@ int findMin(int arr[], int size) {
     return min;              
 }
 
+double averageArray(int numbers[], int size)
+
+ {
+    if (size == 0) 
+	
+	return 0.0;
+    
+    int sum = 0;
+    
+    for (int i = 0; i < size; i++) {
+    	
+        sum =  sum + numbers[i];
+        
+    }
+    return (double)sum / size;
+    
+    
+}
+
+void reverseArray(int numbers[], int size)
+ {
+    for (int i = 0; i < size / 2; i++)
+	 {
+        int tmp = numbers[i];
+        
+        numbers[i] = numbers[size - 1 - i];
+        
+        numbers [size - 1 - i] = tmp;
+    }
+}
+
 void rotateLeft(int arr[], int size, int k) {
     if (size <= 0) return;
     k = k % size;
@@ -392,6 +423,14 @@ void freeArray(int* arr) {
     free(arr);
 }
 
+int* resizeArray(int* arr, int newCapacity) {
+    int* newArr = (int*) realloc(arr, newCapacity * sizeof(int));
+    if (newArr == NULL) {
+        printf("Error: original array unchanged.\n");
+        return NULL;  
+    }
+    return newArr;
+}
 
 /*
  * Some IDE actions compile this file directly as an executable.
