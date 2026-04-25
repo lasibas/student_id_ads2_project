@@ -37,6 +37,7 @@ int  sumDiagonal_antiDiagonal(int m[MAX_ROWS][MAX_COLS], int n);
 /* --- Dynamic Arrays --- */
 int* createDynamicArray(int size);
 void fillDynamicArray(int* array, int size);
+void printDynamicArray(int* array, int size);
 void freeArray(int* arr);
 int* resizeArray(int* arr, int newCapacity);
 #endif

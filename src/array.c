@@ -419,6 +419,15 @@ void fillDynamicArray(int* array, int size) {
     }
 }
 
+void printDynamicArray(int* array, int size) {
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("%d", array[i]);
+        if (i < size - 1) printf(", ");
+    }
+    printf("]\n");
+}
+
 void freeArray(int* arr) {
     free(arr);
 }

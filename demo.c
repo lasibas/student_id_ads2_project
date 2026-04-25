@@ -57,7 +57,7 @@ void fileUtilsMenu() {
     clear_screen();
     do {
         printf("\n=== FILE UTILITIES MENU ===\n");
-        printf("1. Create binary file\n2. Write record to file\n3. Append record to file\n4. Search record by ID\n0. Back\nChoice: ");
+        printf("1. Create binary file\n2. Write record to file\n3. Read record from file\n4. Count records in file\n5. Append record to file\n6. Search record by ID\n7. Update record\n8. Copy binary file\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -99,6 +99,30 @@ void fileUtilsMenu() {
             case 4:
                 printf("Enter filename: ");
                 scanf("%s", filename);
+                int count = countRecords(filename);
+                if (count != -1) {
+                    printf("Number of records in '%s': %d\n", filename, count);
+                } else {
+                    printf("Failed to count records in '%s'.\n", filename);
+                }
+                break;
+            case 5:
+                printf("Enter filename: ");
+                scanf("%s", filename);
+                printf("Enter record ID: ");
+                scanf("%d", &r.id);
+                printf("Enter record name: ");
+                scanf("%s", r.name);
+                printf("Enter record note: ");
+                scanf("%f", &r.note);
+                if (appendRecord(filename, &r) == 0)
+                    printf("Record appended to '%s' successfully.\n", filename);
+                else
+                    printf("Failed to append record to '%s'.\n", filename);
+                break;
+            case 6:
+                printf("Enter filename: ");
+                scanf("%s", filename);
                 printf("Enter record ID to search: ");
                 scanf("%d", &r.id);
                 if (searchRecordById(filename, r.id, &r) != -1) {
@@ -107,6 +131,30 @@ void fileUtilsMenu() {
                 } else {
                     printf("Record with ID %d not found.\n", r.id);
                 }
+                break;
+            case 7:
+                printf("Enter filename: ");
+                scanf("%s", filename);
+                printf("Enter record index to update: ");
+                scanf("%d", &r.id);
+                printf("Enter new record name: ");
+                scanf("%s", r.name);
+                printf("Enter new record note: ");
+                scanf("%f", &r.note);
+                if (updateRecord(filename, r.id, r) == 0)
+                    printf("Record updated in '%s' successfully.\n", filename);
+                else
+                    printf("Failed to update record in '%s'.\n", filename);
+                break;
+            case 8:
+                printf("Enter source filename: ");
+                scanf("%s", filename);
+                printf("Enter destination filename: ");
+                scanf("%s", r.name);
+                if (copyBinaryFile(filename, r.name) == 0)
+                    printf("File copied from '%s' to '%s' successfully.\n", filename, r.name);
+                else
+                    printf("Failed to copy file from '%s' to '%s'.\n", filename, r.name);
                 break;
         }
     } while (choice != 0);
@@ -255,7 +303,7 @@ void dynamicArrayMenu() {
     clear_screen();
     do{
         printf("\n=== DYNAMIC ARRAY MENU ===\n");
-        printf("1. Create dynamic array\n2. Fill dynamic array\n3. Resize dynamic array\n0. Back\nChoice: ");
+        printf("1. Create dynamic array\n2. Fill dynamic array\n3. Print dynamic array\n4. Resize dynamic array\n5. Sort dynamic array\n6. Search dynamic array\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -266,6 +314,7 @@ void dynamicArrayMenu() {
                     if (dynArr != NULL) {
                         printf("Dynamic array of size %d created.\n", size);
                     }
+                    else printf("Failed to create dynamic array.\n");
                 }
                 break;
             case 2:
@@ -275,9 +324,18 @@ void dynamicArrayMenu() {
                         printf("You entered: ");
                         printArray(dynArr, size);
                     }
+                    else printf("Failed to fill dynamic array.\n");
                 }
                 break;
             case 3:
+                {
+                    if (dynArr != NULL) {
+                        printDynamicArray(dynArr, size);
+                    }
+                    else printf("Failed to print dynamic array.\n");
+                }
+                break;
+            case 4:
                 {
                     if (dynArr != NULL) {
                         int newSize;
@@ -289,7 +347,24 @@ void dynamicArrayMenu() {
                             size = newSize;
                             printf("Dynamic array resized to %d.\n", newSize);
                         }
+                        else printf("Failed to resize dynamic array.\n");
                     }
+                }
+                break;
+            case 5:
+                {
+                    if (dynArr != NULL) {
+                        arraySortingMenu(dynArr, size);
+                    }
+                    else printf("Failed to sort dynamic array.\n");
+                }
+                break;
+            case 6:
+                {
+                    if (dynArr != NULL) {
+                        arraySearchingMenu(dynArr, size);
+                    }
+                    else printf("Failed to search dynamic array.\n");
                 }
                 break;
             case 0:
@@ -297,8 +372,8 @@ void dynamicArrayMenu() {
                     freeArray(dynArr);
                     printf("Dynamic array memory freed.\n");
                 }
+                else printf("No dynamic array to free.\n");
                 break;
-            
         }
     }while (choice != 0);
 }
