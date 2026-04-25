@@ -29,10 +29,10 @@ void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols);
 void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
 void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int transposed[MAX_ROWS][MAX_COLS]);
 void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int rows, int cols);
-void multiplyMatrices(int MatA[][100], int MatB[][100], int result[][100], int n);
+void multiplyMatrices(int MatA[MAX_ROWS][MAX_COLS], int MatB[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int n);
 void sortRows(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
 int  isSymmetric(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols);
-int  sumDiagonal_antiDiagonal(int m[][50], int n);
+int  sumDiagonal_antiDiagonal(int m[MAX_ROWS][MAX_COLS], int n);
 
 /* --- Dynamic Arrays --- */
 int* createDynamicArray(int size);

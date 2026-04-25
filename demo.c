@@ -1,14 +1,63 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "include/array.h"
 #include "include/file_utils.h"
+
+static void clear_screen(void);
+static void wait_for_enter(void);
+void arrayMenu();
+void fileUtilsMenu();
+void staticArrayMenu();
+void dynamicArrayMenu();
+void matrixMenu();
+void arraySortingMenu(int arr[], int size);
+void arraySearchingMenu(int arr[], int size);
+
+int main() {
+    int choice = 1;
+    clear_screen();
+    do {
+        printf("\n=== ADS2 PROJECT DEMO ===\n");
+        printf("1. Arrays\n2. Linked Lists\n3. Stacks\n"
+               "4. Queues\n5. File Handling\n6. String Utils\n0. Exit\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                arrayMenu();
+                clear_screen();
+                break;
+            case 5:
+                fileUtilsMenu();
+                clear_screen();
+                break;
+            /* ... */
+        }
+    } while (choice != 0);
+    return 0;
+}
+
+static void clear_screen(void) {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+static void wait_for_enter(void) {
+    int c;
+    printf("\nPress Enter to continue...");
+    while ((c = getchar()) != '\n' && c != EOF) {}
+}
 
 void fileUtilsMenu() {
     int choice = 1;
     char filename[MAX_STRING_LEN];
     Record r;
+    clear_screen();
     do {
         printf("\n=== FILE UTILITIES MENU ===\n");
-        printf("1. Create binary file\n2. Write record to file\n0. Back\nChoice: ");
+        printf("1. Create binary file\n2. Write record to file\n3. Append record to file\n4. Search record by ID\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -33,6 +82,32 @@ void fileUtilsMenu() {
                 else
                     printf("Failed to write record to '%s'.\n", filename);
                 break;
+            case 3:
+                printf("Enter filename: ");
+                scanf("%s", filename);
+                printf("Enter record ID: ");
+                scanf("%d", &r.id);
+                printf("Enter record name: ");
+                scanf("%s", r.name);
+                printf("Enter record note: ");
+                scanf("%f", &r.note);
+                if (appendRecord(filename, &r) == 0)
+                    printf("Record appended to '%s' successfully.\n", filename);
+                else
+                    printf("Failed to append record to '%s'.\n", filename);
+                break;
+            case 4:
+                printf("Enter filename: ");
+                scanf("%s", filename);
+                printf("Enter record ID to search: ");
+                scanf("%d", &r.id);
+                if (searchRecordById(filename, r.id, &r) != -1) {
+                    printf("Record found:\n");
+                    printf("ID: %d\nName: %s\nNote: %.2f\n", r.id, r.name, r.note);
+                } else {
+                    printf("Record with ID %d not found.\n", r.id);
+                }
+                break;
         }
     } while (choice != 0);
 }
@@ -43,6 +118,7 @@ void arraySortingMenu(int arr[], int size) {
         printf("Array is empty. Add elements first.\n");
         return;
     }
+    clear_screen();
     do {
         printf("\n=== SORTING MENU ===\n");
         printf("1. Bubble Sort\n2. Selection Sort\n3. Insertion Sort\n4. Merge Sort\n5. Quick Sort\n0. Back\nChoice: ");
@@ -83,6 +159,7 @@ void arraySearchingMenu(int arr[], int size) {
         printf("Array is empty. Add elements first.\n");
         return;
     }
+    clear_screen();
     do {
         printf("\n=== SEARCHING MENU ===\n");
         printf("1. Linear Search\n2. Binary Search\n0. Back\nChoice: ");
@@ -114,9 +191,10 @@ void arraySearchingMenu(int arr[], int size) {
 void staticArrayMenu() {
     int choice = 1, arr[MAX_1D], size = 0, value, index;
     arrayInput(arr, &size);
+    clear_screen();
     do {
         printf("\n=== STATIC ARRAY MENU ===\n");
-        printf("1. Insert at index\n2. Delete at index\n3. Print array\n4. sort array\n5. search array\n6. sum array\n7. find minimum\n8. find maximum\n0. Back\nChoice: ");
+        printf("1. Insert at index\n2. Delete at index\n3. Print array\n4. sort array\n5. search array\n6. sum array\n7. find minimum\n8. find maximum\n9. average array\n10. reverse array\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -155,6 +233,18 @@ void staticArrayMenu() {
             case 8:
                 printf("Maximum element: %d\n", findMax(arr, size));
                 break;
+            case 9:
+                printf("Average of array elements: %.2f\n", averageArray(arr, size));
+                break;
+            case 10:
+                reverseArray(arr, size);
+                printf("Reversed array: ");
+                printArray(arr, size);
+                break;
+        }
+
+        if (choice != 0) {
+            wait_for_enter();
         }
     } while (choice != 0);
 }
@@ -162,9 +252,10 @@ void staticArrayMenu() {
 void dynamicArrayMenu() {
     int choice = 1, size;
     int* dynArr = NULL;
+    clear_screen();
     do{
         printf("\n=== DYNAMIC ARRAY MENU ===\n");
-        printf("1. Create dynamic array\n2. Fill dynamic array\n0. Back\nChoice: ");
+        printf("1. Create dynamic array\n2. Fill dynamic array\n3. Resize dynamic array\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -186,6 +277,21 @@ void dynamicArrayMenu() {
                     }
                 }
                 break;
+            case 3:
+                {
+                    if (dynArr != NULL) {
+                        int newSize;
+                        printf("New size for dynamic array: ");
+                        scanf("%d", &newSize);
+                        int* resizedArr = resizeArray(dynArr, newSize);
+                        if (resizedArr != NULL) {
+                            dynArr = resizedArr;
+                            size = newSize;
+                            printf("Dynamic array resized to %d.\n", newSize);
+                        }
+                    }
+                }
+                break;
             case 0:
                 if (dynArr != NULL) {
                     freeArray(dynArr);
@@ -199,6 +305,7 @@ void dynamicArrayMenu() {
 
 void matrixMenu() {
     int choice = 1, matrix[MAX_ROWS][MAX_COLS], transposed[MAX_ROWS][MAX_COLS], rows = 0, cols = 0;
+    clear_screen();
     do {
         printf("\n=== MATRIX MENU ===\n");
         printf("1. Input matrix\n2. Print matrix\n3. Transpose matrix\n4. Add matrices\n5. Multiply matrices\n6. Sum diagonals/anti-diagonals\n7. sort rows\n8. isSymmetric\n0. Back\nChoice: ");
@@ -247,6 +354,7 @@ void matrixMenu() {
 
 void arrayMenu() {
     int choice = 1;
+    clear_screen();
     do {
         printf("\n=== ARRAY MENU ===\n");
         printf("1. static array\n2. dynamic array\n3. matrices\n0. Back\nChoice: ");
@@ -254,31 +362,18 @@ void arrayMenu() {
         switch(choice) {
             case 1:
                 staticArrayMenu();
+                clear_screen();
                 break;
             case 2:
                 dynamicArrayMenu();
+                clear_screen();
                 break;
             case 3:
                 matrixMenu();
+                clear_screen();
                 break;
         }
     } while (choice != 0);
-}
-
-int main() {
-    int choice = 1;
-    do {
-        printf("\n=== ADS2 PROJECT DEMO ===\n");
-        printf("1. Arrays\n2. Linked Lists\n3. Stacks\n"
-               "4. Queues\n5. File Handling\n6. String Utils\n0. Exit\nChoice: ");
-        if (scanf("%d", &choice) <= 0) break;
-        switch(choice) {
-            case 1: arrayMenu(); break;
-            case 5: fileUtilsMenu(); break;
-            /* ... */
-        }
-    } while (choice != 0);
-    return 0;
 }
 
 /*

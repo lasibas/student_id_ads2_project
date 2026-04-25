@@ -305,7 +305,7 @@ void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS
     }
 }
 
-void multiplyMatrices(int MatA[][100], int MatB[][100], int result[][100], int n) {
+void multiplyMatrices(int MatA[MAX_ROWS][MAX_COLS], int MatB[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int n) {
     int i, j, k;
     for (i = 0; i < n; i++)
         for (j = 0; j < n; j++) {
@@ -363,7 +363,7 @@ static void merge(int arr[], int left, int mid, int right) {
     free(R);
 }
 
-int sumDiagonal_antiDiagonal(int m[][50], int n) {
+int sumDiagonal_antiDiagonal(int m[MAX_ROWS][MAX_COLS], int n) {
     int sum = 0;
 
     for (int i = 0; i < n; i++) {
