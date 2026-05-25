@@ -3,6 +3,7 @@
 #include "include/array.h"
 #include "include/file_utils.h"
 #include "include/linked_lists.h"
+#include "include/string_utils.h"
 
 static void clear_screen(void);
 static void wait_for_enter(void);
@@ -36,7 +37,10 @@ int main() {
                 fileUtilsMenu();
                 clear_screen();
                 break;
-            /* ... */
+            case 6:
+                stringUtilsMenu();
+                clear_screen();
+                break;
         }
     } while (choice != 0);
     return 0;
@@ -502,6 +506,48 @@ void linkedListsMenu() {
                         printf("Failed to insert at index %d.\n", index);
                 }
                 break;
+            case 4:
+                {
+                    if (deleteAtHead(&list) == 0)
+                        printf("Deleted head element.\n");
+                    else
+                        printf("Failed to delete head (list may be empty).\n");
+                }
+                break;
+            case 5:
+                {
+                    if (deleteAtTail(&list) == 0)
+                        printf("Deleted tail element.\n");
+                    else
+                        printf("Failed to delete tail (list may be empty).\n");
+                }
+                break;
+        }
+    } while (choice != 0);
+}
+
+void stringUtilsMenu() {
+    int choice = 1;
+    char str[MAX_STRING_LEN], dest[MAX_STRING_LEN];
+    clear_screen();
+    do {
+        printf("\n=== STRING UTILS MENU ===\n");
+        printf("1. String Length\n2. String Copy\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                printf("Length of '%s' is %d\n", str, myStrLen(str));
+                break;
+            case 2:
+                printf("Enter source string: ");
+                scanf("%s", str);
+                if (myStrCpy(dest, str) >= 0)
+                    printf("Copied string: '%s'\n", dest);
+                else
+                    printf("Failed to copy string.\n");
+                break;
         }
     } while (choice != 0);
 }
@@ -522,4 +568,8 @@ void linkedListsMenu() {
 #define ADS2_EMBEDDED_LINKED_LISTS
 #include "src/linked_lists.c"
 #undef ADS2_EMBEDDED_LINKED_LISTS
+
+#define ADS2_EMBEDDED_STRING_UTILS
+#include "src/string_utils.c"
+#undef ADS2_EMBEDDED_STRING_UTILS
 #endif

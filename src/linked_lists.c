@@ -57,3 +57,36 @@ int insertAtIndex(ArrayList* list, int index, int value) {
     list->size++;
     return 0;
 }
+
+int deleteAtHead(ArrayList* L) {
+    if (L->head == NULL)
+        return -1;
+
+    Node* temp = L->head;      
+    int val = temp->data;      
+    L->head = L->head->next;   
+    free(temp);                
+    return val;
+}
+
+int deleteAtTail(ArrayList* L) {
+    if (L->head == NULL) return -1;
+
+    if (L->head->next == NULL) {
+        int val = L->head->data;
+        free(L->head);
+        L->head = NULL;
+        return val;
+    }
+
+    Node* prev = L->head;
+    while (prev->next->next != NULL) {
+        prev = prev->next;
+    }
+
+    int val = prev->next->data;
+    free(prev->next);
+    prev->next = NULL;
+
+    return val;
+}

@@ -1,7 +1,7 @@
 CC := gcc
 CFLAGS := -Wall -Wextra -g3 -DADS2_SEPARATE_COMPILATION
 TARGET := output/demo
-SOURCES := demo.c src/array.c src/file_utils.c src/linked_lists.c
+SOURCES := demo.c src/array.c src/file_utils.c src/linked_lists.c src/string_utils.c
 
 .PHONY: all clean run
 
