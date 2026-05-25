@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "include/array.h"
 #include "include/file_utils.h"
+#include "include/linked_lists.h"
 
 static void clear_screen(void);
 static void wait_for_enter(void);
@@ -24,6 +25,10 @@ int main() {
         switch(choice) {
             case 1:
                 arrayMenu();
+                clear_screen();
+                break;
+            case 2:
+                linkedListsMenu();
                 clear_screen();
                 break;
             case 5:
@@ -446,6 +451,55 @@ void arrayMenu() {
             case 3:
                 matrixMenu();
                 clear_screen();
+                break;
+        }
+    } while (choice != 0);
+}
+
+linkedListsMenu() {
+    int choice = 1;
+    ArrayList list;
+    initArrayList(&list);
+    clear_screen();
+    do {
+        printf("\n=== LINKED LISTS MENU ===\n");
+        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                {
+                    int value;
+                    printf("Value to insert at head: ");
+                    scanf("%d", &value);
+                    if (insertAtHead(&list, value) == 0)
+                        printf("Inserted %d at head.\n", value);
+                    else
+                        printf("Failed to insert at head.\n");
+                }
+                break;
+            case 2:
+                {
+                    int value;
+                    printf("Value to insert at tail: ");
+                    scanf("%d", &value);
+                    if (insertAtTail(&list, value) == 0)
+                        printf("Inserted %d at tail.\n", value);
+                    else
+                        printf("Failed to insert at tail.\n");
+                }
+                break;
+            case 3:
+                {
+                    int value, index;
+                    printf("Index to insert: ");
+                    scanf("%d", &index);
+                    printf("Value to insert: ");
+                    scanf("%d", &value);
+                    if (insertAtIndex(&list, index, value) == 0)
+                        printf("Inserted %d at index %d.\n", value, index);
+                    else
+                        printf("Failed to insert at index %d.\n", index);
+                }
                 break;
         }
     } while (choice != 0);
