@@ -90,3 +90,27 @@ int deleteAtTail(ArrayList* L) {
 
     return val;
 }
+
+void displayList(ArrayList* list) {
+    Node* current = list->head;
+    printf("List (size=%d): ", list->size);
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+void reverseList(ArrayList* list) {
+    Node* prev = NULL;
+    Node* current = list->head;
+    Node* next = NULL;
+
+    while (current != NULL) {
+        next = current->next; // store next
+        current->next = prev; // reverse current node's pointer
+        prev = current;       // move pointers one position ahead
+        current = next;
+    }
+    list->head = prev;
+}

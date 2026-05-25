@@ -10,5 +10,7 @@ int insertAtTail(ArrayList* list, int value);
 int insertAtIndex(ArrayList* list, int index, int value);
 int deleteAtHead(ArrayList* list);
 int deleteAtTail(ArrayList* list);
+void displayList(ArrayList* list);
+void reverseList(ArrayList* list);
 
 #endif // LINKED_LISTS_H

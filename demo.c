@@ -15,6 +15,7 @@ void matrixMenu();
 void arraySortingMenu(int arr[], int size);
 void arraySearchingMenu(int arr[], int size);
 void linkedListsMenu();
+void stringUtilsMenu();
 
 int main() {
     int choice = 1;
@@ -468,7 +469,7 @@ void linkedListsMenu() {
     clear_screen();
     do {
         printf("\n=== LINKED LISTS MENU ===\n");
-        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n0. Back\nChoice: ");
+        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n8. Display list\n9. Reverse list\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -520,6 +521,18 @@ void linkedListsMenu() {
                         printf("Deleted tail element.\n");
                     else
                         printf("Failed to delete tail (list may be empty).\n");
+                }
+                break;
+            case 8:
+                {
+                displayList(&list);
+                }
+                break;
+            case 9:
+                {
+                reverseList(&list);
+                printf("List reversed.\n");
+                displayList(&list);
                 }
                 break;
         }
