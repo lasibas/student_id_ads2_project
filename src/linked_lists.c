@@ -1,6 +1,8 @@
 #include "../include/linked_lists.h"
 #include <stdlib.h>
 
+/*---Singly Linked List Implementation---*/
+
 void initArrayList(ArrayList* list) {
     list->head = NULL;
     list->size = 0;
@@ -113,4 +115,37 @@ void reverseList(ArrayList* list) {
         current = next;
     }
     list->head = prev;
+}
+
+/*---Doubly Linked List Implementation---*/
+
+void initListDLL(DLL* L)
+{
+    L->head = NULL;
+    L->tail = NULL;
+    L->size = 0;
+}
+
+int insertAtHeadDLL(DLL* L, int value)
+{
+    DNode* newNode = malloc(sizeof(DNode));
+
+    if(newNode == NULL)
+        return 0;
+
+    newNode->data = value;
+
+    newNode->next = L->head;
+    newNode->prev = NULL;
+
+    if(L->head != NULL)
+        L->head->prev = newNode;
+    else
+        L->tail = newNode;
+
+    L->head = newNode;
+
+    L->size++;
+
+    return 1;
 }

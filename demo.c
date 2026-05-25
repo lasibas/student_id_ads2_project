@@ -14,6 +14,7 @@ void dynamicArrayMenu();
 void matrixMenu();
 void arraySortingMenu(int arr[], int size);
 void arraySearchingMenu(int arr[], int size);
+void singlyLinkedListsMenu();
 void linkedListsMenu();
 void stringUtilsMenu();
 
@@ -462,13 +463,13 @@ void arrayMenu() {
     } while (choice != 0);
 }
 
-void linkedListsMenu() {
+void singlyLinkedListsMenu() {
     int choice = 1;
     ArrayList list;
     initArrayList(&list);
     clear_screen();
     do {
-        printf("\n=== LINKED LISTS MENU ===\n");
+        printf("\n=== SINGLY LINKED LISTS MENU ===\n");
         printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n8. Display list\n9. Reverse list\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
@@ -539,6 +540,31 @@ void linkedListsMenu() {
     } while (choice != 0);
 }
 
+void doublyLinkedListsMenu() {
+    int choice = 1;
+    DLL list;
+    initListDLL(&list);
+    clear_screen();
+    do {
+        printf("\n=== DOUBLY LINKED LISTS MENU ===\n");
+        printf("1. Insert at head\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                {
+                    int value;
+                    printf("Value to insert at head: ");
+                    scanf("%d", &value);
+                    if (insertAtHeadDLL(&list, value) == 0)
+                        printf("Inserted %d at head.\n", value);
+                    else
+                        printf("Failed to insert at head.\n");
+                }
+                break;
+        }
+    } while (choice != 0);
+}
+
 void stringUtilsMenu() {
     int choice = 1;
     char str[MAX_STRING_LEN], dest[MAX_STRING_LEN];
@@ -560,6 +586,26 @@ void stringUtilsMenu() {
                     printf("Copied string: '%s'\n", dest);
                 else
                     printf("Failed to copy string.\n");
+                break;
+        }
+    } while (choice != 0);
+}
+
+void linkedListsMenu(){
+    int choice = 1;
+    clear_screen();
+    do {
+        printf("\n=== LINKED LISTS MENU ===\n");
+        printf("1. Singly Linked Lists\n2. Doubly Linked Lists\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                singlyLinkedListsMenu();
+                clear_screen();
+                break;
+            case 2:
+                doublyLinkedListsMenu();
+                clear_screen();
                 break;
         }
     } while (choice != 0);
