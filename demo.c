@@ -518,4 +518,8 @@ void linkedListsMenu() {
 #define ADS2_EMBEDDED_FILE_UTILS
 #include "src/file_utils.c"
 #undef ADS2_EMBEDDED_FILE_UTILS
+
+#define ADS2_EMBEDDED_LINKED_LISTS
+#include "src/linked_lists.c"
+#undef ADS2_EMBEDDED_LINKED_LISTS
 #endif
