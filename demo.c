@@ -13,6 +13,7 @@ void dynamicArrayMenu();
 void matrixMenu();
 void arraySortingMenu(int arr[], int size);
 void arraySearchingMenu(int arr[], int size);
+void linkedListsMenu();
 
 int main() {
     int choice = 1;
@@ -456,7 +457,7 @@ void arrayMenu() {
     } while (choice != 0);
 }
 
-linkedListsMenu() {
+void linkedListsMenu() {
     int choice = 1;
     ArrayList list;
     initArrayList(&list);
