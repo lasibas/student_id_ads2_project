@@ -1,5 +1,7 @@
 #include "../include/linked_lists.h"
 #include <stdlib.h>
+#include <stdio.h>
+
 
 /*---Singly Linked List Implementation---*/
 
@@ -143,19 +145,19 @@ void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result) {
     Node* pB = B->head;
     while (pA != NULL && pB != NULL) {
         if (pA->data <= pB->data) {
-            insertEnd(result, pA->data);
+            insertAtTail(result, pA->data);
             pA = pA->next;
         } else {
-            insertEnd(result, pB->data);
+            insertAtTail(result, pB->data);
             pB = pB->next;
         }
     }
     while (pA != NULL) {
-        insertEnd(result, pA->data);
+        insertAtTail(result, pA->data);
         pA = pA->next;
     }
     while (pB != NULL) {
-        insertEnd(result, pB->data);
+        insertAtTail(result, pB->data);
         pB = pB->next;
     }
 }
