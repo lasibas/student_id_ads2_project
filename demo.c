@@ -585,7 +585,7 @@ void stringUtilsMenu() {
     clear_screen();
     do {
         printf("\n=== STRING UTILS MENU ===\n");
-        printf("1. String Length\n2. String Copy\n0. Back\nChoice: ");
+        printf("1. String Length\n2. String Copy\n3. String Copy (N characters)\n4. String Concatenate\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -600,6 +600,28 @@ void stringUtilsMenu() {
                     printf("Copied string: '%s'\n", dest);
                 else
                     printf("Failed to copy string.\n");
+                break;
+            case 3:
+                printf("Enter source string: ");
+                scanf("%s", str);
+                printf("Number of characters to copy: ");
+                int n;
+                scanf("%d", &n);
+                if (myStrNCpy(dest, str, n) >= 0)
+                    printf("Copied string: '%s'\n", dest);
+                else
+                    printf("Failed to copy string.\n");
+                break;
+            case 4:
+                printf("Enter first string: ");
+                scanf("%s", str);
+                printf("Enter second string: ");
+                char src[MAX_STRING_LEN];
+                scanf("%s", src);
+                if (myStrCat(str, src) >= 0)
+                    printf("Concatenated string: '%s'\n", str);
+                else
+                    printf("Failed to concatenate strings.\n");
                 break;
         }
     } while (choice != 0);
