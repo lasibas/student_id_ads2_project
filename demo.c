@@ -470,7 +470,7 @@ void singlyLinkedListsMenu() {
     clear_screen();
     do {
         printf("\n=== SINGLY LINKED LISTS MENU ===\n");
-        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n8. Display list\n9. Reverse list\n0. Back\nChoice: ");
+        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n8. Display list\n9. Reverse list\n10. Sort list\n 11. Merge sorted lists\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -533,6 +533,20 @@ void singlyLinkedListsMenu() {
                 {
                 reverseList(&list);
                 printf("List reversed.\n");
+                displayList(&list);
+                }
+                break;
+            case 10:
+                {
+                sortListBubble(&list);
+                printf("List sorted.\n");
+                displayList(&list);
+                }
+                break;
+            case 11:
+                {
+                mergeSortedLists(&list, &list, &list);
+                printf("Merged list with itself (should be unchanged if already sorted).\n");
                 displayList(&list);
                 }
                 break;

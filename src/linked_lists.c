@@ -117,6 +117,50 @@ void reverseList(ArrayList* list) {
     list->head = prev;
 }
 
+void sortListBubble(ArrayList* L) {
+    if (L->head == NULL) return;
+    int swapped;
+    Node* ptr;
+    Node* last = NULL;
+    do {
+        swapped = 0;
+        ptr = L->head;
+        while (ptr->next != last) {
+            if (ptr->data > ptr->next->data) {
+                int temp = ptr->data;
+                ptr->data = ptr->next->data;
+                ptr->next->data = temp;
+                swapped = 1;
+            }
+            ptr = ptr->next;
+        }
+        last = ptr;
+    } while (swapped);
+}
+
+void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result) {
+    Node* pA = A->head;
+    Node* pB = B->head;
+    while (pA != NULL && pB != NULL) {
+        if (pA->data <= pB->data) {
+            insertEnd(result, pA->data);
+            pA = pA->next;
+        } else {
+            insertEnd(result, pB->data);
+            pB = pB->next;
+        }
+    }
+    while (pA != NULL) {
+        insertEnd(result, pA->data);
+        pA = pA->next;
+    }
+    while (pB != NULL) {
+        insertEnd(result, pB->data);
+        pB = pB->next;
+    }
+}
+
+
 /*---Doubly Linked List Implementation---*/
 
 void initListDLL(DLL* L)

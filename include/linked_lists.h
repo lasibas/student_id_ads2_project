@@ -12,6 +12,8 @@ int  deleteAtHead(ArrayList* list);
 int  deleteAtTail(ArrayList* list);
 void displayList(ArrayList* list);
 void reverseList(ArrayList* list);
+void sortListBubble(ArrayList* list);
+void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result);
 
 /***** Doubly Linked List Operations *****/
 
