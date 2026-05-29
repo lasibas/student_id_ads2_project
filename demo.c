@@ -561,7 +561,7 @@ void doublyLinkedListsMenu() {
     clear_screen();
     do {
         printf("\n=== DOUBLY LINKED LISTS MENU ===\n");
-        printf("1. Insert at head\n0. Back\nChoice: ");
+        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n6. Delete at index\n7. Display forward\n8. Display backward\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -573,6 +573,67 @@ void doublyLinkedListsMenu() {
                         printf("Inserted %d at head.\n", value);
                     else
                         printf("Failed to insert at head.\n");
+                }
+                break;
+            case 2:
+                {
+                    int value;
+                    printf("Value to insert at tail: ");
+                    scanf("%d", &value);
+                    if (insertAtTailDLL(&list, value) == 0)
+                        printf("Inserted %d at tail.\n", value);
+                    else
+                        printf("Failed to insert at tail.\n");
+                }
+                break;
+            case 3:
+                {
+                    int value, index;
+                    printf("Index to insert: ");
+                    scanf("%d", &index);
+                    printf("Value to insert: ");
+                    scanf("%d", &value);
+                    if (insertAtIndexDLL(&list, index, value) == 0)
+                        printf("Inserted %d at index %d.\n", value, index);
+                    else
+                        printf("Failed to insert at index %d.\n", index);
+                }
+                break;
+            case 4:
+                {
+                    if (deleteAtHeadDLL(&list) == 0)
+                        printf("Deleted head element.\n");
+                    else
+                        printf("Failed to delete head (list may be empty).\n");
+                }
+                break;
+            case 5:
+                {
+                    if (deleteAtTailDLL(&list) == 0)
+                        printf("Deleted tail element.\n");
+                    else
+                        printf("Failed to delete tail (list may be empty).\n");
+                }
+                break;
+            case 6:
+                {
+                    int index;
+                    printf("Index to delete: ");
+                    scanf("%d", &index);
+                    if (deleteAtIndexDLL(&list, index) == 0)
+                        printf("Deleted element at index %d.\n", index);
+                    else
+                        printf("Failed to delete element at index %d.\n", index);
+                }
+                break;
+            case 7:
+                {
+                    dllDisplayForward(&list);
+                }
+                break;
+            case 8:
+                {
+                    dllDisplayBackward(&list);
                 }
                 break;
         }

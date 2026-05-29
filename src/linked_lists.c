@@ -195,3 +195,122 @@ int insertAtHeadDLL(DLL* L, int value)
 
     return 1;
 }
+
+int insertAtTailDLL(DLL* L, int value) {
+    DNode* newNode = (DNode*)malloc(sizeof(DNode));
+    if (!newNode) return 0;
+
+    newNode->data = value;
+    newNode->next = NULL;
+    newNode->prev = L->tail;      
+
+    if (L->tail != NULL) {
+        L->tail->next = newNode;  
+    } else {
+        L->head = newNode;        
+    }
+
+    L->tail = newNode;            
+    L->size++;
+    return 1;
+}
+
+int insertAtIndexDLL(DLL* L, int index, int value) {
+    if (index < 0 || index > L->size) return 0;
+
+    if (index == 0) return insertAtHeadDLL(L, value);
+    if (index == L->size) return insertAtTailDLL(L, value);
+
+    DNode* newNode = (DNode*)malloc(sizeof(DNode));
+    if (!newNode) return 0;
+
+    newNode->data = value;
+
+    DNode* current = L->head;
+    for (int i = 0; i < index - 1; i++) {
+        current = current->next;
+    }
+
+    newNode->next = current->next;
+    newNode->prev = current;
+    current->next->prev = newNode;
+    current->next = newNode;
+    L->size++;
+    return 1;
+}
+
+int deleteAtHeadDLL(DLL* L) {
+    if (L->head == NULL) return -1;
+
+    DNode* temp = L->head;
+    int val = temp->data;
+
+    L->head = L->head->next;
+    if (L->head != NULL) {
+        L->head->prev = NULL;
+    } else {
+        L->tail = NULL; 
+    }
+
+    free(temp);
+    return val;
+}
+
+int deleteAtTailDLL(DLL* L) {
+    if (L->tail == NULL) return -1;
+
+    DNode* temp = L->tail;
+    int val = temp->data;
+
+    L->tail = L->tail->prev;
+    if (L->tail != NULL) {
+        L->tail->next = NULL;
+    } else {
+        L->head = NULL; 
+    }
+
+    free(temp);
+    return val;
+}
+
+int deleteAtIndexDLL(DLL* L, int index) {
+    if (index < 0 || index >= L->size) return -1;
+
+    if (index == 0) return deleteAtHeadDLL(L);
+    if (index == L->size - 1) return deleteAtTailDLL(L);
+
+    DNode* current = L->head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+
+    int val = current->data;
+    current->prev->next = current->next;
+    current->next->prev = current->prev;
+    free(current);
+    L->size--;
+    return val;
+}
+
+void dllDisplayForward(DLL* L) {
+    printf("NULL -> ");
+    DNode* curr = L->head;
+    while (curr != NULL) {
+        printf("[%d]", curr->data);
+        if (curr->next != NULL) printf(" -> ");
+        curr = curr->next;
+    }
+    printf(" -> NULL  (size=%d)\n", L->size);
+}
+ 
+void dllDisplayBackward(DLL* L) {
+    printf("NULL -> ");
+    DNode* curr = L->tail;
+    while (curr != NULL) {
+        printf("[%d]", curr->data);
+        if (curr->prev != NULL) printf(" -> ");
+        curr = curr->prev;
+    }
+    printf(" -> NULL  (reversed, size=%d)\n", L->size);
+}
+ 

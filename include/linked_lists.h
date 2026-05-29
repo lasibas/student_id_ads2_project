@@ -19,5 +19,12 @@ void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result);
 
 void initListDLL(DLL* list);
 int  insertAtHeadDLL(DLL* list, int value);
+int  insertAtTailDLL(DLL* list, int value);
+int  insertAtIndexDLL(DLL* list, int index, int value);
+int  deleteAtHeadDLL(DLL* list);
+int  deleteAtTailDLL(DLL* list);
+int  deleteAtIndexDLL(DLL* list, int index);
+void dllDisplayForward(DLL* list);
+void dllDisplayBackward(DLL* list);
 
 #endif // LINKED_LISTS_H
