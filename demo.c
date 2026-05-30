@@ -470,7 +470,7 @@ void singlyLinkedListsMenu() {
     clear_screen();
     do {
         printf("\n=== SINGLY LINKED LISTS MENU ===\n");
-        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n8. Display list\n9. Reverse list\n10. Sort list\n11. Merge sorted lists\n0. Back\nChoice: ");
+        printf("1. Insert at head\n2. Insert at tail\n3. Insert at index\n4. Delete at head\n5. Delete at tail\n6. Delete at value\n7. Search for value\n8. Display list\n9. Reverse list\n10. Sort list\n11. Merge sorted lists\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -522,6 +522,27 @@ void singlyLinkedListsMenu() {
                         printf("Deleted tail element.\n");
                     else
                         printf("Failed to delete tail (list may be empty).\n");
+                }
+                break;
+            case 6:
+                {
+                    int value;
+                    printf("Value to delete: ");
+                    scanf("%d", &value);
+                    if (deleteByValue(&list, value) == 0)
+                        printf("Deleted element with value %d.\n", value);
+                    else
+                        printf("Failed to delete element with value %d (not found).\n", value);
+                }
+                break;
+            case 7:
+                {
+                    int value;
+                    printf("Value to search: ");
+                    scanf("%d", &value);
+                    Node* found = searchValue(&list, value);
+                    if (found != NULL)                        printf("Value %d found in list.\n", value);
+                    else                        printf("Value %d not found in list.\n", value);
                 }
                 break;
             case 8:
@@ -646,7 +667,7 @@ void stringUtilsMenu() {
     clear_screen();
     do {
         printf("\n=== STRING UTILS MENU ===\n");
-        printf("1. String Length\n2. String Copy\n3. String Copy (N characters)\n4. String Concatenate\n0. Back\nChoice: ");
+        printf("1. String Length\n2. String Copy\n3. String Copy (N characters)\n4. String Compare\n5. String Compare (N characters)\n6. String Concatenate\n7. Count Words\n8. Is Palindrome\n9. Substring\n10. To Upper Case\n11. To Lower Case\n12. Remove Spaces\n13. Remove Character\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -674,6 +695,35 @@ void stringUtilsMenu() {
                     printf("Failed to copy string.\n");
                 break;
             case 4:
+                {
+                    char str2[MAX_STRING_LEN];
+                    printf("Enter first string: ");
+                    scanf("%s", str);
+                    printf("Enter second string: ");
+                    scanf("%s", str2);
+                    int cmp = my_strcmp(str, str2);
+                    if (cmp == 0)                        printf("Strings are equal.\n");
+                    else if (cmp < 0)                        printf("First string is less than second string.\n");
+                    else                        printf("First string is greater than second string.\n");
+                }
+                break;
+            case 5:
+                {
+                    char str2[MAX_STRING_LEN];
+                    printf("Enter first string: ");
+                    scanf("%s", str);
+                    printf("Enter second string: ");
+                    scanf("%s", str2);
+                    printf("Number of characters to compare: ");
+                    int n;
+                    scanf("%d", &n);
+                    int cmp = my_strncmp(str, str2, n);
+                    if (cmp == 0)                        printf("First %d characters of both strings are equal.\n", n);
+                    else if (cmp < 0)                        printf("First string is less than second string in the first %d characters.\n", n);
+                    else                        printf("First string is greater than second string in the first %d characters.\n", n);
+                }
+                break;
+            case 6:
                 printf("Enter first string: ");
                 scanf("%s", str);
                 printf("Enter second string: ");
@@ -683,6 +733,57 @@ void stringUtilsMenu() {
                     printf("Concatenated string: '%s'\n", str);
                 else
                     printf("Failed to concatenate strings.\n");
+                break;
+            case 7:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                printf("Number of words in '%s' is %d\n", str, countWords(str));
+                break;
+            case 8:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                if (isPalindrome(str))
+                    printf("'%s' is a palindrome.\n", str);
+                else                    printf("'%s' is not a palindrome.\n", str);
+                break;
+            case 9:
+                printf("Enter source string: ");
+                scanf("%s", str);
+                printf("Start index for substring: ");
+                int start, len;
+                scanf("%d", &start);
+                printf("Length of substring: ");
+                scanf("%d", &len);
+                substring(str, start, len, dest);
+                printf("Extracted substring: '%s'\n", dest);
+                break;
+            case 10:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                toUpperCase(str);
+                printf("String in upper case: '%s'\n", str);
+                break;
+            case 11:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                for (int i = 0; str[i] != '\0'; i++) {
+                    str[i] = toLower(str[i]);
+                }
+                printf("String in lower case: '%s'\n", str);
+                break;
+            case 12:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                removeSpaces(str);
+                printf("String with spaces removed: '%s'\n", str);
+                break;
+            case 13:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                printf("Enter character to remove: ");
+                char c;                scanf(" %c", &c);
+                removeChar(str, c);
+                printf("String with character '%c' removed: '%s'\n", c, str);
                 break;
         }
     } while (choice != 0);

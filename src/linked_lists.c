@@ -95,6 +95,68 @@ int deleteAtTail(ArrayList* L) {
     return val;
 }
 
+// Delete the first node with the given value
+int deleteByValue(ArrayList* L, int value)
+{
+    // Start from the first node
+    Node* current = L->head;
+
+    // Previous node
+    Node* previous = NULL;
+
+    // Search for the value
+    while(current != NULL && current->data != value)
+    {
+        previous = current;
+        current = current->next;
+    }
+
+    // Value not found
+    if(current == NULL)
+    {
+        return -1;
+    }
+
+    // If the node is the head
+    if(previous == NULL)
+    {
+        L->head = current->next;
+    }
+    else
+    {
+        // Skip the node
+        previous->next = current->next;
+    }
+
+    // Free memory
+    free(current);
+
+    return 0;
+}
+
+// Search for a value in the list
+Node* searchValue(ArrayList* L, int value)
+{
+    // Start from the first node
+    Node* current = L->head;
+
+    // Go through all nodes
+    while(current != NULL)
+    {
+        // Check if value is found
+        if(current->data == value)
+        {
+            return current;
+        }
+
+        // Move to the next node
+        current = current->next;
+    }
+
+    // Value not found
+    return NULL;
+}
+
 void displayList(ArrayList* list) {
     Node* current = list->head;
     printf("List (size=%d): ", list->size);
@@ -314,3 +376,5 @@ void dllDisplayBackward(DLL* L) {
     printf(" -> NULL  (reversed, size=%d)\n", L->size);
 }
  
+
+

@@ -30,6 +30,28 @@ int myStrNCpy(char* dest, const char* src, size_t n) {
     return i; // return length of copied string
 }
 
+int my_strcmp(const char* a, const char* b) {
+    int i = 0;
+    while (a[i] != '\0' && b[i] != '\0') {
+        if (a[i] != b[i])
+            return (unsigned char)a[i] - (unsigned char)b[i];
+        i++;
+    }
+    return (unsigned char)a[i] - (unsigned char)b[i];
+}
+
+int my_strncmp(const char* a, const char* b, int n) {
+    int i = 0;
+    while (i < n && a[i] != '\0' && b[i] != '\0') {
+        if (a[i] != b[i])
+            return (unsigned char)a[i] - (unsigned char)b[i];
+        i++;
+    }
+    if (i == n)
+        return 0;
+    return (unsigned char)a[i] - (unsigned char)b[i];
+}
+
 int myStrCat(char* dest, const char* src) {
     int destLen = myStrLen(dest);
     int i = 0;
@@ -102,6 +124,25 @@ void substring(const char* src, int start, int len, char* dest) {
     }
 
     dest[len] = '\0';
+}
+
+// Convert string to uppercase
+void toUpperCase(char* s)
+{
+    int i = 0;
+
+    // loop until end of string
+    while(s[i] != '\0')
+    {
+        // if character is lowercase letter
+        if(s[i] >= 'a' && s[i] <= 'z')
+        {
+            // convert to uppercase using ASCII
+            s[i] = s[i] - 32;
+        }
+
+        i++;
+    }
 }
 
 char toLower(char c) {
