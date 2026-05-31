@@ -667,7 +667,7 @@ void stringUtilsMenu() {
     clear_screen();
     do {
         printf("\n=== STRING UTILS MENU ===\n");
-        printf("1. String Length\n2. String Copy\n3. String Copy (N characters)\n4. String Compare\n5. String Compare (N characters)\n6. String Concatenate\n7. Count Words\n8. Is Palindrome\n9. Substring\n10. To Upper Case\n11. To Lower Case\n12. Remove Spaces\n13. Remove Character\n0. Back\nChoice: ");
+        printf("1. String Length\n2. String Copy\n3. String Copy (N characters)\n4. String Compare\n5. String Compare (N characters)\n6. String Concatenate\n7. Count Words\n8. Is Palindrome\n9. Substring\n10. To Upper Case\n11. To Lower Case\n12. Reverse String\n13. Count Vowels\n14. Remove Spaces\n15. Remove Character\n0. Back\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -774,10 +774,21 @@ void stringUtilsMenu() {
             case 12:
                 printf("Enter a string: ");
                 scanf("%s", str);
+                reverseString(str);
+                printf("String reversed: '%s'\n", str);
+                break;
+            case 13:
+                printf("Enter a string: ");
+                scanf("%s", str);
+                printf("Number of vowels in '%s' is %d\n", str, countVowels(str));
+                break;
+            case 14:
+                printf("Enter a string: ");
+                scanf("%s", str);
                 removeSpaces(str);
                 printf("String with spaces removed: '%s'\n", str);
                 break;
-            case 13:
+            case 15:
                 printf("Enter a string: ");
                 scanf("%s", str);
                 printf("Enter character to remove: ");

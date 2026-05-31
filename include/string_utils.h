@@ -12,6 +12,8 @@ int countWords(const char* s);
 void substring(const char* src, int start, int len, char* dest);
 int isPalindrome(const char* s);
 char toLower(char c);
+void reverseString(char* s);
+int countVowels(const char* s);
 int compareIgnoreCase(const char* a, const char* b);
 void toUpperCase(char* s);
 void removeSpaces(char *s);

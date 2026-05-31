@@ -151,6 +151,28 @@ char toLower(char c) {
     return c;
 }
 
+void reverseString(char* s) {
+    int i = 0;
+    int j = myStrLen(s) - 1;
+    while (i < j) {
+        char temp = s[i];
+        s[i]      = s[j];
+        s[j]      = temp;
+        i++;
+        j--;
+    }
+}
+ 
+int countVowels(const char* s) {
+    int count = 0;
+    for (int i = 0; s[i] != '\0'; i++) {
+        char c = (char)toLower((unsigned char)s[i]);
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+            count++;
+    }
+    return count;
+}
+
 int compareIgnoreCase(const char* a, const char* b) {
     while (*a != '\0' && *b != '\0') {
         char ca = toLower(*a);
