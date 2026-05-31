@@ -30,6 +30,35 @@ Alternative (compile a single file):
 gcc -g src/<file>.c -o bin/<executable>
 ```
 
+Bonus Demo (DSA Demo)
+----------------------
+The project includes a small dataset-analysis demo located in the `Bonus/` folder. You can build and run it in three ways:
+
+- From the repository root (uses the new `bonus_demo` target in the top-level Makefile):
+```bash
+make bonus_demo
+./output/dsa_demo
+```
+
+- From the `Bonus/` directory (local Makefile that links the required library sources):
+```bash
+cd Bonus
+make
+./output/DSA-Demo
+```
+
+- With CMake (build only the `dsa_demo` target):
+```bash
+cmake -S . -B build
+cmake --build build --target dsa_demo
+./build/output/dsa_demo
+```
+
+Notes:
+- The `Makefile` at [Makefile](Makefile) exposes `bonus_demo`.
+- There's also a local [Bonus/Makefile](Bonus/Makefile) so you can build from inside the `Bonus/` folder.
+- The CMake target `dsa_demo` is added via [CMakeLists.txt](CMakeLists.txt) and writes its executable to the build `output/` directory.
+
 Windows
 
 Option A — MSYS2 / MinGW (Unix-like shell)

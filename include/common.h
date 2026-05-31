@@ -9,7 +9,8 @@
 typedef struct {
     int id;
     char name[50];
-    float note;
+    float score;
+    char category[20];
 } Record;
 
 /* Node for singly linked list */
@@ -41,6 +42,7 @@ typedef struct {
 /* Pointer-based Stack (linked list) */
 typedef struct {
     Node* top;   // top element
+    int size;
 } Stack;
 
 /* Pointer-based Queue (linked list) */

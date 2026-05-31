@@ -18,7 +18,6 @@ void sortListBubble(ArrayList* list);
 void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result);
 
 /***** Doubly Linked List Operations *****/
-
 void initListDLL(DLL* list);
 int  insertAtHeadDLL(DLL* list, int value);
 int  insertAtTailDLL(DLL* list, int value);
@@ -28,5 +27,19 @@ int  deleteAtTailDLL(DLL* list);
 int  deleteAtIndexDLL(DLL* list, int index);
 void dllDisplayForward(DLL* list);
 void dllDisplayBackward(DLL* list);
+
+/****** Stacks Operations *****/
+void initStack(Stack* stack);
+int  push(Stack* stack, int value);
+int  pop(Stack* stack);
+int  peek(Stack* stack);
+int  isEmpty(Stack* stack);
+
+/****** Queue Operations *****/
+void initQueue(Queue* queue);
+int  enqueue(Queue* queue, int value);
+int  dequeue(Queue* queue);
+int  front(Queue* queue);
+int  rear(Queue* queue);
 
 #endif // LINKED_LISTS_H

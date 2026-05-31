@@ -14,3 +14,6 @@ add_executable(demo ${SOURCES})
 
 # Install target (optional)
 install(TARGETS demo DESTINATION bin)
+
+# Add Bonus subdirectory for DSA demo
+add_subdirectory(Bonus)

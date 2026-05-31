@@ -376,5 +376,99 @@ void dllDisplayBackward(DLL* L) {
     printf(" -> NULL  (reversed, size=%d)\n", L->size);
 }
  
+/****** Stacks Operations *****/
+
+void initStack(Stack* S) {
+    S->top = NULL;
+    S->size = 0;
+}
+
+int push(Stack* S, int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) return -1; // allocation failed
+
+    newNode->data = value;
+    newNode->next = S->top;
+    S->top = newNode;
+    S->size++;
+    return 0;
+}
+
+int pop(Stack* S) {
+    if (S->top == NULL) {
+        printf("STACK UNDERFLOW: cannot pop from an empty stack.\n");
+        return -1; // stack is empty
+    }
+    Node* temp = S->top;          /* save pointer to top node   */
+    int   val  = temp->data;      /* save the value inside it   */
+    S->top     = S->top->next;    /* move top down one level    */
+    free(temp);                   /* release the old top node   */
+    S->size--;
+    return val;
+}
+
+int peek(Stack* S)
+{
+    // check if stack is empty
+    if(S->top == NULL)
+    {
+        return -1; // sentinel value (error / empty stack)
+    }
+
+    // return top value without removing it
+    return S->top->data;
+}
+
+int isEmpty(Stack* S) {
+    return S->top == NULL;
+}
 
 
+/****** Queue Operations *****/
+
+void initQueue(Queue* Q) {
+    Q->front = NULL;
+    Q->rear = NULL;
+    Q->count = 0;
+}
+
+int enqueue(Queue* Q, int value){
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode)
+     return -1;
+    newNode->data = value;
+    newNode->next = NULL;
+    if (Q->rear == NULL) {
+        Q->front = Q->rear = newNode;
+    } else {
+        Q->rear->next = newNode;
+        Q->rear = newNode;
+    }
+    Q->count++;
+    return 0;
+
+}
+
+int dequeue(Queue* Q){
+    if (Q->front == NULL) return -1;
+
+    Node* temp = Q->front;
+    int val = temp->data;
+    Q->front = Q->front->next;
+    free(temp);
+    if (Q->front == NULL) {
+        Q->rear = NULL;
+    }
+    Q->count--;
+    return val;
+}
+
+int front(Queue* Q) {
+    if (Q->front == NULL) return -1;
+    return Q->front->data;
+}
+
+int rear(Queue* Q) {
+    if (Q->rear == NULL) return -1;
+    return Q->rear->data;
+}

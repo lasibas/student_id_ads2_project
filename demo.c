@@ -15,6 +15,8 @@ void matrixMenu();
 void arraySortingMenu(int arr[], int size);
 void arraySearchingMenu(int arr[], int size);
 void singlyLinkedListsMenu();
+void doublyLinkedListsMenu();
+void stacksMenu();
 void linkedListsMenu();
 void stringUtilsMenu();
 
@@ -33,6 +35,10 @@ int main() {
                 break;
             case 2:
                 linkedListsMenu();
+                clear_screen();
+                break;
+            case 3:
+                stacksMenu();
                 clear_screen();
                 break;
             case 5:
@@ -87,8 +93,8 @@ void fileUtilsMenu() {
                 scanf("%d", &r.id);
                 printf("Enter record name: ");
                 scanf("%s", r.name);
-                printf("Enter record note: ");
-                scanf("%f", &r.note);
+                printf("Enter record score: ");
+                scanf("%f", &r.score);
                 if (writeRecord(filename, &r) == 0)
                     printf("Record written to '%s' successfully.\n", filename);
                 else
@@ -101,8 +107,8 @@ void fileUtilsMenu() {
                 scanf("%d", &r.id);
                 printf("Enter record name: ");
                 scanf("%s", r.name);
-                printf("Enter record note: ");
-                scanf("%f", &r.note);
+                printf("Enter record score: ");
+                scanf("%f", &r.score);
                 if (appendRecord(filename, &r) == 0)
                     printf("Record appended to '%s' successfully.\n", filename);
                 else
@@ -125,8 +131,8 @@ void fileUtilsMenu() {
                 scanf("%d", &r.id);
                 printf("Enter record name: ");
                 scanf("%s", r.name);
-                printf("Enter record note: ");
-                scanf("%f", &r.note);
+                printf("Enter record score: ");
+                scanf("%f", &r.score);
                 if (appendRecord(filename, &r) == 0)
                     printf("Record appended to '%s' successfully.\n", filename);
                 else
@@ -139,7 +145,7 @@ void fileUtilsMenu() {
                 scanf("%d", &r.id);
                 if (searchRecordById(filename, r.id, &r) != -1) {
                     printf("Record found:\n");
-                    printf("ID: %d\nName: %s\nNote: %.2f\n", r.id, r.name, r.note);
+                    printf("ID: %d\nName: %s\nScore: %.2f\n", r.id, r.name, r.score);
                 } else {
                     printf("Record with ID %d not found.\n", r.id);
                 }
@@ -151,8 +157,8 @@ void fileUtilsMenu() {
                 scanf("%d", &r.id);
                 printf("Enter new record name: ");
                 scanf("%s", r.name);
-                printf("Enter new record note: ");
-                scanf("%f", &r.note);
+                printf("Enter new record score: ");
+                scanf("%f", &r.score);
                 if (updateRecord(filename, r.id, r) == 0)
                     printf("Record updated in '%s' successfully.\n", filename);
                 else
@@ -655,6 +661,44 @@ void doublyLinkedListsMenu() {
             case 8:
                 {
                     dllDisplayBackward(&list);
+                }
+                break;
+        }
+    } while (choice != 0);
+}
+
+void stacksMenu(){
+    int choice = 1;
+    Stack stack;
+    initStack(&stack);
+    clear_screen();
+    do {
+        printf("\n=== STACKS MENU ===\n");
+        printf("1. Push\n2. Pop\n3. Peek\n4. Is Empty\n0. Back\nChoice: ");
+        if (scanf("%d", &choice) <= 0) break;
+        switch(choice) {
+            case 1:
+                {
+                    int value;
+                    printf("Value to push: ");
+                    scanf("%d", &value);
+                    if (push(&stack, value) == 0)
+                        printf("Pushed %d onto stack.\n", value);
+                    else                        printf("Failed to push onto stack.\n");
+                }
+                break;
+            case 2:
+                {
+                    int popped = pop(&stack);
+                    if (popped != -1)                        printf("Popped value: %d\n", popped);
+                    else                        printf("Failed to pop from stack (stack may be empty).\n");
+                }
+                break;
+            case 3:
+                {
+                    int topValue = peek(&stack);
+                    if (topValue != -1)                        printf("Top value: %d\n", topValue);
+                    else                        printf("Failed to peek stack (stack may be empty).\n");
                 }
                 break;
         }
