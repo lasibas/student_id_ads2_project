@@ -2,25 +2,40 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*---Singly Linked List Implementation---
+ * This file provides simple linked-list based containers:
+ * - singly linked list (ArrayList style) with insert/delete/search
+ * - doubly linked list (DLL) with forward/backward traversal
+ * - stack implemented on singly linked nodes
+ * - queue implemented on singly linked nodes
+ *
+ * The comments below document each function's purpose and include
+ * short line-level notes for non-obvious operations.
+ */
 
-/*---Singly Linked List Implementation---*/
-
+/* Initialize an empty singly linked list. */
 void initArrayList(ArrayList* list) {
     list->head = NULL;
     list->size = 0;
 }
 
+/* Insert a value at the head of the list.
+ * Returns 0 on success, -1 on allocation failure.
+ */
 int insertAtHead(ArrayList* list, int value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) return -1; // allocation failed
 
     newNode->data = value;
-    newNode->next = list->head;
-    list->head = newNode;
+    newNode->next = list->head; // link new node to previous head
+    list->head = newNode;       // update head pointer
     list->size++;
     return 0;
 }
 
+/* Insert a value at the tail. Traverses to the last node when needed.
+ * Returns 0 on success, -1 if memory allocation fails.
+ */
 int insertAtTail(ArrayList* list, int value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) return -1; // allocation failed
@@ -29,8 +44,10 @@ int insertAtTail(ArrayList* list, int value) {
     newNode->next = NULL;
 
     if (list->head == NULL) {
+        // empty list: new node becomes head
         list->head = newNode;
     } else {
+        // walk to end (O(n)) and append
         Node* current = list->head;
         while (current->next != NULL) {
             current = current->next;
@@ -41,6 +58,10 @@ int insertAtTail(ArrayList* list, int value) {
     return 0;
 }
 
+/* Insert `value` at `index` (0-based). Valid indices: 0..size.
+ * Uses head/tail helpers for boundary cases; otherwise walks to the
+ * predecessor node and performs pointer insertion.
+ */
 int insertAtIndex(ArrayList* list, int index, int value) {
     if (index < 0 || index > list->size) return -1; // invalid index
 
@@ -53,26 +74,34 @@ int insertAtIndex(ArrayList* list, int index, int value) {
     newNode->data = value;
 
     Node* current = list->head;
+    // advance to node before insertion point
     for (int i = 0; i < index - 1; i++) {
         current = current->next;
     }
-    newNode->next = current->next;
+    newNode->next = current->next; // splice in new node
     current->next = newNode;
     list->size++;
     return 0;
 }
 
+/* Remove the head node and return its value, or -1 if list is empty.
+ * Caller should adjust `size` if needed (this function doesn't decrement size)
+ * historically this code returned the removed value; consistency retained.
+ */
 int deleteAtHead(ArrayList* L) {
     if (L->head == NULL)
         return -1;
 
-    Node* temp = L->head;      
-    int val = temp->data;      
-    L->head = L->head->next;   
-    free(temp);                
+    Node* temp = L->head;      /* node to remove */
+    int val = temp->data;      /* save data to return */
+    L->head = L->head->next;   /* advance head */
+    free(temp);                /* free removed node */
     return val;
 }
 
+/* Remove tail node and return its value. O(n) time to find predecessor.
+ * Returns -1 if list empty. Does not update size here (caller responsibility).
+ */
 int deleteAtTail(ArrayList* L) {
     if (L->head == NULL) return -1;
 
@@ -84,6 +113,7 @@ int deleteAtTail(ArrayList* L) {
     }
 
     Node* prev = L->head;
+    // find node before last (prev->next is last)
     while (prev->next->next != NULL) {
         prev = prev->next;
     }
@@ -96,67 +126,63 @@ int deleteAtTail(ArrayList* L) {
 }
 
 // Delete the first node with the given value
+/* Delete first node matching `value`. Returns 0 on success, -1 if not found.
+ * Walks the list keeping a `previous` pointer so removal is constant-time.
+ */
 int deleteByValue(ArrayList* L, int value)
 {
-    // Start from the first node
-    Node* current = L->head;
+    Node* current = L->head;    // start from head
+    Node* previous = NULL;      // previous node for unlinking
 
-    // Previous node
-    Node* previous = NULL;
-
-    // Search for the value
+    // find first node with matching value
     while(current != NULL && current->data != value)
     {
         previous = current;
         current = current->next;
     }
 
-    // Value not found
-    if(current == NULL)
+    if(current == NULL) // not found
     {
         return -1;
     }
 
-    // If the node is the head
     if(previous == NULL)
     {
+        // removing head
         L->head = current->next;
     }
     else
     {
-        // Skip the node
+        // bypass current node
         previous->next = current->next;
     }
 
-    // Free memory
     free(current);
 
     return 0;
 }
 
 // Search for a value in the list
+/* Search for node containing `value`. Returns pointer to node or NULL.
+ * Linear scan, O(n) time.
+ */
 Node* searchValue(ArrayList* L, int value)
 {
-    // Start from the first node
-    Node* current = L->head;
+    Node* current = L->head; // iterate from head
 
-    // Go through all nodes
     while(current != NULL)
     {
-        // Check if value is found
         if(current->data == value)
         {
-            return current;
+            return current; // found
         }
-
-        // Move to the next node
-        current = current->next;
+        current = current->next; // advance
     }
 
-    // Value not found
-    return NULL;
+    return NULL; // not found
 }
 
+/* Print list contents for debugging: shows size and arrows between elements. */
 void displayList(ArrayList* list) {
     Node* current = list->head;
     printf("List (size=%d): ", list->size);
@@ -167,20 +193,26 @@ void displayList(ArrayList* list) {
     printf("NULL\n");
 }
 
+/* Reverse the singly linked list in-place.
+ * Uses three-pointer iteration to reverse links in O(n) time.
+ */
 void reverseList(ArrayList* list) {
     Node* prev = NULL;
     Node* current = list->head;
     Node* next = NULL;
 
     while (current != NULL) {
-        next = current->next; // store next
-        current->next = prev; // reverse current node's pointer
-        prev = current;       // move pointers one position ahead
-        current = next;
+        next = current->next;    // temporarily store next node
+        current->next = prev;    // reverse pointer
+        prev = current;          // advance prev
+        current = next;          // advance current
     }
-    list->head = prev;
+    list->head = prev; // new head is previous tail
 }
 
+/* Bubble-sort the linked list by swapping node data.
+ * This is stable but O(n^2) and swaps values rather than nodes.
+ */
 void sortListBubble(ArrayList* L) {
     if (L->head == NULL) return;
     int swapped;
@@ -202,6 +234,9 @@ void sortListBubble(ArrayList* L) {
     } while (swapped);
 }
 
+/* Merge two sorted lists A and B into `result` producing a sorted list.
+ * Adds elements to `result` by value using `insertAtTail`.
+ */
 void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result) {
     Node* pA = A->head;
     Node* pB = B->head;
@@ -227,6 +262,7 @@ void mergeSortedLists(ArrayList* A, ArrayList* B, ArrayList* result) {
 
 /*---Doubly Linked List Implementation---*/
 
+/* Initialize an empty doubly linked list (DLL). */
 void initListDLL(DLL* L)
 {
     L->head = NULL;
@@ -234,6 +270,7 @@ void initListDLL(DLL* L)
     L->size = 0;
 }
 
+/* Insert at head of DLL. Returns 1 on success, 0 on allocation failure. */
 int insertAtHeadDLL(DLL* L, int value)
 {
     DNode* newNode = malloc(sizeof(DNode));
@@ -243,13 +280,13 @@ int insertAtHeadDLL(DLL* L, int value)
 
     newNode->data = value;
 
-    newNode->next = L->head;
-    newNode->prev = NULL;
+    newNode->next = L->head; // forward link
+    newNode->prev = NULL;    // new head has no previous
 
     if(L->head != NULL)
-        L->head->prev = newNode;
+        L->head->prev = newNode; // update old head prev
     else
-        L->tail = newNode;
+        L->tail = newNode; // empty list -> tail also new
 
     L->head = newNode;
 
@@ -258,25 +295,27 @@ int insertAtHeadDLL(DLL* L, int value)
     return 1;
 }
 
+/* Insert at tail of DLL. Returns 1 on success, 0 on failure. */
 int insertAtTailDLL(DLL* L, int value) {
     DNode* newNode = (DNode*)malloc(sizeof(DNode));
     if (!newNode) return 0;
 
     newNode->data = value;
     newNode->next = NULL;
-    newNode->prev = L->tail;      
+    newNode->prev = L->tail;      // link back to old tail
 
     if (L->tail != NULL) {
-        L->tail->next = newNode;  
+        L->tail->next = newNode;  // update old tail forward link
     } else {
-        L->head = newNode;        
+        L->head = newNode;        // empty list -> head points to new
     }
 
-    L->tail = newNode;            
+    L->tail = newNode;            // update tail pointer
     L->size++;
     return 1;
 }
 
+/* Insert into DLL at given index. Uses head/tail helpers for boundaries. */
 int insertAtIndexDLL(DLL* L, int index, int value) {
     if (index < 0 || index > L->size) return 0;
 
@@ -301,6 +340,7 @@ int insertAtIndexDLL(DLL* L, int index, int value) {
     return 1;
 }
 
+/* Remove head of DLL and return its value, or -1 if empty. */
 int deleteAtHeadDLL(DLL* L) {
     if (L->head == NULL) return -1;
 
@@ -318,6 +358,7 @@ int deleteAtHeadDLL(DLL* L) {
     return val;
 }
 
+/* Remove tail of DLL and return its value, or -1 if empty. */
 int deleteAtTailDLL(DLL* L) {
     if (L->tail == NULL) return -1;
 
@@ -335,6 +376,7 @@ int deleteAtTailDLL(DLL* L) {
     return val;
 }
 
+/* Delete node at index in DLL and return its value, or -1 on invalid index. */
 int deleteAtIndexDLL(DLL* L, int index) {
     if (index < 0 || index >= L->size) return -1;
 
@@ -354,6 +396,7 @@ int deleteAtIndexDLL(DLL* L, int index) {
     return val;
 }
 
+/* Display DLL from head to tail. Useful for debugging/visualization. */
 void dllDisplayForward(DLL* L) {
     printf("NULL -> ");
     DNode* curr = L->head;
@@ -365,6 +408,7 @@ void dllDisplayForward(DLL* L) {
     printf(" -> NULL  (size=%d)\n", L->size);
 }
  
+/* Display DLL from tail to head. */
 void dllDisplayBackward(DLL* L) {
     printf("NULL -> ");
     DNode* curr = L->tail;
@@ -378,22 +422,25 @@ void dllDisplayBackward(DLL* L) {
  
 /****** Stacks Operations *****/
 
+/* Stack operations implemented on singly linked nodes. */
 void initStack(Stack* S) {
     S->top = NULL;
     S->size = 0;
 }
 
+/* Push a value onto the stack. Returns 0 on success, -1 on allocation failure. */
 int push(Stack* S, int value) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) return -1; // allocation failed
 
     newNode->data = value;
-    newNode->next = S->top;
-    S->top = newNode;
+    newNode->next = S->top; // new top points to previous top
+    S->top = newNode;       // update top
     S->size++;
     return 0;
 }
 
+/* Pop top value from stack and return it. Prints underflow on empty stack. */
 int pop(Stack* S) {
     if (S->top == NULL) {
         printf("STACK UNDERFLOW: cannot pop from an empty stack.\n");
@@ -407,18 +454,18 @@ int pop(Stack* S) {
     return val;
 }
 
+/* Peek at top of stack without removing; returns -1 if empty. */
 int peek(Stack* S)
 {
-    // check if stack is empty
     if(S->top == NULL)
     {
         return -1; // sentinel value (error / empty stack)
     }
 
-    // return top value without removing it
-    return S->top->data;
+    return S->top->data; // top value
 }
 
+/* Return non-zero if stack is empty. */
 int isEmpty(Stack* S) {
     return S->top == NULL;
 }
@@ -426,12 +473,14 @@ int isEmpty(Stack* S) {
 
 /****** Queue Operations *****/
 
+/* Queue operations implemented with singly linked nodes and front/rear pointers. */
 void initQueue(Queue* Q) {
     Q->front = NULL;
     Q->rear = NULL;
     Q->count = 0;
 }
 
+/* Enqueue value at queue rear. Returns 0 on success, -1 on allocation failure. */
 int enqueue(Queue* Q, int value){
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (!newNode)
@@ -439,35 +488,39 @@ int enqueue(Queue* Q, int value){
     newNode->data = value;
     newNode->next = NULL;
     if (Q->rear == NULL) {
+        // empty queue
         Q->front = Q->rear = newNode;
     } else {
-        Q->rear->next = newNode;
-        Q->rear = newNode;
+        Q->rear->next = newNode; // append after rear
+        Q->rear = newNode;       // update rear pointer
     }
     Q->count++;
     return 0;
 
 }
 
+/* Dequeue from front and return value, or -1 if empty. */
 int dequeue(Queue* Q){
     if (Q->front == NULL) return -1;
 
     Node* temp = Q->front;
     int val = temp->data;
-    Q->front = Q->front->next;
+    Q->front = Q->front->next; // advance front
     free(temp);
     if (Q->front == NULL) {
-        Q->rear = NULL;
+        Q->rear = NULL; // queue became empty
     }
     Q->count--;
     return val;
 }
 
+/* Return value at front without removing, or -1 if empty. */
 int front(Queue* Q) {
     if (Q->front == NULL) return -1;
     return Q->front->data;
 }
 
+/* Return value at rear without removing, or -1 if empty. */
 int rear(Queue* Q) {
     if (Q->rear == NULL) return -1;
     return Q->rear->data;

@@ -2,17 +2,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Helper: merge two sorted subarrays [left..mid] and [mid+1..right].
+ * Parameters: `arr` - array to merge into; `left, mid, right` - bounds.
+ * Behavior: allocates temporary buffers, merges in-place, frees buffers.
+ * Complexity: O(n) time, O(n) extra memory where n = right-left+1.
+ */
 static void merge(int arr[], int left, int mid, int right);
+
+/* Helper: partition used by quicksort.
+ * Parameters: `arr` - array; `low, high` - partition bounds.
+ * Returns: pivot final index after partitioning.
+ * Complexity: O(n) time for the partition step.
+ */
 static int partition(int arr[], int low, int high);
 
 /*--- 1D Array Operations ---*/
 
-/* Initialize: set size to 0 — array is logically empty */
+/* Initialize array metadata.
+ * Sets the logical `size` to 0 (empties the array). `arr` is unused
+ * here but kept for API symmetry with other operations.
+ */
 void initArray(int arr[], int* size) {
     (void)arr;
     *size = 0;
 }
 
+/* Read integers into `arr` from stdin.
+ * Prompts for number of elements (clamped to [0, MAX_1D]) and then
+ * reads that many integers. On invalid input the function sets `size`
+ * to the number successfully read and returns early.
+ */
 void arrayInput(int arr[], int* size) {
     printf("Enter number of elements (max %d): ", MAX_1D);
     if (scanf("%d", size) <= 0 || *size < 0 || *size > MAX_1D) {
@@ -30,7 +49,9 @@ void arrayInput(int arr[], int* size) {
     }
 }
 
-/* Print in [a, b, c] format */
+/* Print the array in a readable list format: [a, b, c].
+ * Parameters: `arr` and its logical `size`.
+ */
 void printArray(int arr[], int size) {
     printf("[");
     for (int i = 0; i < size; i++) {
@@ -40,7 +61,9 @@ void printArray(int arr[], int size) {
     printf("]\n");
 }
 
-/* Insert value at index — shift elements right first */
+/* Insert `value` at `index` shifting subsequent elements right.
+ * Returns 0 on success, -1 on invalid index or when array is full.
+ */
 int insertAt(int arr[], int* size, int index, int value) {
     if (index < 0 || index > *size) return -1;  // invalid index
     if (*size >= MAX_1D) return -1;             // array full
@@ -53,7 +76,9 @@ int insertAt(int arr[], int* size, int index, int value) {
     return 0;
 }
 
-/* Delete element at index — shift elements left */
+/* Delete element at `index` shifting elements left.
+ * Returns 0 on success, -1 on invalid index or empty array.
+ */
 int deleteAt(int arr[], int* size, int index) {
     if (index < 0 || index >= *size) return -1; // invalid index
     if (*size == 0) return -1;// array empty
@@ -65,7 +90,10 @@ int deleteAt(int arr[], int* size, int index) {
     return 0;
 }
 
-/* Linear search:*/
+/* Linear search for `value` in `arr`.
+ * Returns index of first match or -1 if not found.
+ * Complexity: O(n).
+ */
 int linearSearch(int arr[], int size, int value) {
     for (int i = 0; i < size; i++) {
         if (arr[i] == value) return i; // found
@@ -73,7 +101,10 @@ int linearSearch(int arr[], int size, int value) {
     return -1; // not found
 }
 
-/* Binary search: */
+/* Binary search for `value` in a sorted `arr`.
+ * Returns index if found, -1 otherwise. Requires `arr` sorted.
+ * Complexity: O(log n).
+ */
 int binarySearch(int arr[], int size, int value) {
     int left = 0, right = size - 1;
     while (left <= right) {
@@ -85,7 +116,9 @@ int binarySearch(int arr[], int size, int value) {
     return -1; // not found
 }
 
-/* Bubble sort: */
+/* Bubble sort: in-place stable sort. Returns 0.
+ * Complexity: O(n^2) average and worst-case.
+ */
 int bubbleSort(int arr[], int size) {
     if (size <= 1) return 0; // already sorted
     for (int i = 0; i < size - 1; i++) {
@@ -101,6 +134,10 @@ int bubbleSort(int arr[], int size) {
     return 0;
 }
 
+/* Selection sort: in-place unstable sort.
+ * `minpos` is used internally as the index of minimum element.
+ * Complexity: O(n^2).
+ */
 void selectionSort(int arr[], int size, int minpos) {
     for (int i = 0; i < size - 1; i++) {
          minpos = i;
@@ -114,6 +151,9 @@ void selectionSort(int arr[], int size, int minpos) {
     }
 }
 
+/* Insertion sort: in-place stable sort.
+ * Good for small or nearly-sorted arrays. Complexity O(n^2).
+ */
 void insertionSort(int arr[], int size) {
     for (int i = 1; i < size; i++) {
         int temp = arr[i]; 
@@ -127,6 +167,10 @@ void insertionSort(int arr[], int size) {
     }
 }
 
+/* Merge sort: recursive divide-and-conquer.
+ * Sorts the subarray `arr[left..right]` in-place using extra memory
+ * in the `merge` helper. Complexity: O(n log n) time.
+ */
 void mergeSort(int arr[], int left, int right) {
     if (left < right) {
         int mid = (left + right) / 2;
@@ -136,6 +180,9 @@ void mergeSort(int arr[], int left, int right) {
     }
 }
 
+/* Quick sort: recursive in-place sort using Lomuto partition.
+ * Average complexity O(n log n), worst-case O(n^2).
+ */
 void quickSort(int arr[], int low, int high) {
     if (low < high) {
         int pi = partition(arr, low, high);
@@ -145,6 +192,9 @@ void quickSort(int arr[], int low, int high) {
     }
 }
 
+/* Sum of array elements. Returns the integer sum.
+ * Complexity: O(n).
+ */
 int sumArray(int arr[], int size) {
     int sum = 0;
 
@@ -155,6 +205,9 @@ int sumArray(int arr[], int size) {
     return sum;
 }
 
+/* Find maximum value in `arr`. Returns 0 for empty arrays.
+ * Complexity: O(n).
+ */
 int findMax(int arr[], int size) {
     if (size <= 0) return 0;
     int max = arr[0];         
@@ -168,6 +221,9 @@ int findMax(int arr[], int size) {
     return max;              
 }
 
+/* Find minimum value in `arr`. Returns 0 for empty arrays.
+ * Complexity: O(n).
+ */
 int findMin(int arr[], int size) {
     if (size <= 0) return 0;
     int min = arr[0];         
@@ -181,17 +237,20 @@ int findMin(int arr[], int size) {
     return min;              
 }
 
+/* Compute average of integer array as double.
+ * Returns 0.0 when `size` is zero to avoid division by zero.
+ */
 double averageArray(int numbers[], int size)
 
  {
     if (size == 0) 
-	
-	return 0.0;
+    
+    return 0.0;
     
     int sum = 0;
     
     for (int i = 0; i < size; i++) {
-    	
+        	
         sum =  sum + numbers[i];
         
     }
@@ -200,6 +259,9 @@ double averageArray(int numbers[], int size)
     
 }
 
+/* Reverse array in-place.
+ * Swaps elements symmetrically. Complexity O(n).
+ */
 void reverseArray(int numbers[], int size)
  {
     for (int i = 0; i < size / 2; i++)
@@ -212,6 +274,9 @@ void reverseArray(int numbers[], int size)
     }
 }
 
+/* Rotate array left by `k` positions (in-place).
+ * Complexity: O(n*k) with current implementation; can be optimized.
+ */
 void rotateLeft(int arr[], int size, int k) {
     if (size <= 0) return;
     k = k % size;
@@ -227,6 +292,9 @@ void rotateLeft(int arr[], int size, int k) {
     }
 }
 
+/* Merge two already-sorted arrays `a` (size `na`) and `b` (size `nb`)
+ * into `out[]` producing a sorted merged array. Complexity O(na+nb).
+ */
 void mergeSortedArrays(int a[], int na, int b[], int nb, int out[]) {
     int i = 0, j = 0, k = 0;
 
@@ -248,6 +316,9 @@ void mergeSortedArrays(int a[], int na, int b[], int nb, int out[]) {
 }
 
 /*--- 2D Array Operations ---*/
+/* Initialize matrix by reading rows, cols and values from stdin.
+ * On invalid input sets `rows` and `cols` to 0.
+ */
 void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols) {
     printf("Enter matrix rows (1-%d): ", MAX_ROWS);
     if (scanf("%d", rows) <= 0 || *rows < 1 || *rows > MAX_ROWS) {
@@ -278,6 +349,8 @@ void initMatrix(int matrix[MAX_ROWS][MAX_COLS], int* rows, int* cols) {
     }
 }
 
+/* Print a matrix row-by-row using bracketed row notation.
+ */
 void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         printf("[");
@@ -289,6 +362,9 @@ void printMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     }
 }
 
+/* Compute the transpose of `matrix` into `transposed`.
+ * Result has dimensions `cols x rows`.
+ */
 void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int transposed[MAX_ROWS][MAX_COLS]) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -297,6 +373,8 @@ void transposeMatrix(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols, int tra
     }
 }
 
+/* Element-wise addition of two matrices into `result`.
+ */
 void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -305,6 +383,9 @@ void addMatrices(int matrix1[MAX_ROWS][MAX_COLS], int matrix2[MAX_ROWS][MAX_COLS
     }
 }
 
+/* Multiply two n x n matrices `MatA` and `MatB` into `result`.
+ * Uses the straightforward triple-loop algorithm. Complexity O(n^3).
+ */
 void multiplyMatrices(int MatA[MAX_ROWS][MAX_COLS], int MatB[MAX_ROWS][MAX_COLS], int result[MAX_ROWS][MAX_COLS], int n) {
     int i, j, k;
     for (i = 0; i < n; i++)
@@ -315,6 +396,9 @@ void multiplyMatrices(int MatA[MAX_ROWS][MAX_COLS], int MatB[MAX_ROWS][MAX_COLS]
         }
 }
 
+/* Check whether a square matrix is symmetric (matrix == transpose).
+ * Returns 1 if symmetric, 0 otherwise.
+ */
 int isSymmetric(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     if (rows != cols) return 0;
 
@@ -325,6 +409,9 @@ int isSymmetric(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     return 1;
 }
 
+/* Sort each row of the matrix independently using bubble sort.
+ * Complexity per row O(cols^2).
+ */
 void sortRows(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     for (int i = 0; i < rows; i++) {
         for (int pass = 0; pass < cols - 1; pass++)
@@ -337,6 +424,9 @@ void sortRows(int matrix[MAX_ROWS][MAX_COLS], int rows, int cols) {
     }
 }
 
+/* Internal merge helper used by `mergeSort`.
+ * Merges two sorted subarrays in `arr` by allocating temporary buffers.
+ */
 static void merge(int arr[], int left, int mid, int right) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
@@ -363,6 +453,9 @@ static void merge(int arr[], int left, int mid, int right) {
     free(R);
 }
 
+/* Compute sum of main diagonal and anti-diagonal of an n x n matrix.
+ * If n is odd, the center element is subtracted once to avoid double-count.
+ */
 int sumDiagonal_antiDiagonal(int m[MAX_ROWS][MAX_COLS], int n) {
     int sum = 0;
 
@@ -378,6 +471,9 @@ int sumDiagonal_antiDiagonal(int m[MAX_ROWS][MAX_COLS], int n) {
     return sum;
 }
 
+/* Lomuto partition implementation for quicksort.
+ * Chooses last element as pivot and partitions array in-place.
+ */
 static int partition(int arr[], int low, int high) {
     int pivot = arr[high];
     int i = low - 1;

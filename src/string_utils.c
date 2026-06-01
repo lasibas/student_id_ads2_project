@@ -3,6 +3,9 @@
 #include <string.h>
 #include "../include/string_utils.h"
 
+/* Return length of C-string `str` (number of chars before null byte).
+ * Equivalent to `strlen` from the standard library.
+ */
 int myStrLen(const char* str) {
     int length = 0;
     while (str[length] != '\0') {
@@ -11,25 +14,34 @@ int myStrLen(const char* str) {
     return length;
 }
 
+/* Copy NUL-terminated `src` into `dest`. Returns number of characters copied.
+ * `dest` must have enough space for the copy.
+ */
 int myStrCpy(char* dest, const char* src) {
     int i = 0;
     while (src[i] != '\0') {
         dest[i] = src[i];
         i++;
     }
-    dest[i] = '\0'; // null-terminate the destination string
-    return i; // return length of copied string
+    dest[i] = '\0';
+    return i;
 }
 
+/* Copy up to `n` characters from `src` into `dest`, NUL-terminating.
+ * Returns number of characters copied (not counting terminating NUL).
+ */
 int myStrNCpy(char* dest, const char* src, size_t n) {
     size_t i;
     for (i = 0; i < n && src[i] != '\0'; i++) {
         dest[i] = src[i];
     }
-    dest[i] = '\0'; // null-terminate the destination string
-    return i; // return length of copied string
+    dest[i] = '\0';
+    return i;
 }
 
+/* Compare two strings lexicographically.
+ * Returns negative/0/positive like `strcmp`.
+ */
 int my_strcmp(const char* a, const char* b) {
     int i = 0;
     while (a[i] != '\0' && b[i] != '\0') {
@@ -40,6 +52,9 @@ int my_strcmp(const char* a, const char* b) {
     return (unsigned char)a[i] - (unsigned char)b[i];
 }
 
+/* Compare up to `n` characters of two strings.
+ * Returns 0 if equal for first `n` chars, otherwise negative/positive.
+ */
 int my_strncmp(const char* a, const char* b, int n) {
     int i = 0;
     while (i < n && a[i] != '\0' && b[i] != '\0') {
@@ -52,6 +67,9 @@ int my_strncmp(const char* a, const char* b, int n) {
     return (unsigned char)a[i] - (unsigned char)b[i];
 }
 
+/* Append `src` to `dest`. `dest` must have enough space.
+ * Returns new length of `dest` after concatenation.
+ */
 int myStrCat(char* dest, const char* src) {
     int destLen = myStrLen(dest);
     int i = 0;
@@ -59,10 +77,13 @@ int myStrCat(char* dest, const char* src) {
         dest[destLen + i] = src[i];
         i++;
     }
-    dest[destLen + i] = '\0'; // null-terminate the destination string
-    return destLen + i; // return length of concatenated string
+    dest[destLen + i] = '\0';
+    return destLen + i;
 }
 
+/* Count words in a string separated by whitespace (space, tab, newline).
+ * Returns the word count.
+ */
 int countWords(const char* s)
 {
     int count = 0;
@@ -89,6 +110,9 @@ int countWords(const char* s)
     return count;
 }
 
+/* Check if string `s` is a palindrome (case-sensitive).
+ * Returns 1 if palindrome, 0 otherwise.
+ */
 int isPalindrome(const char* s)
 {
     int j = 0;
@@ -109,6 +133,9 @@ int isPalindrome(const char* s)
     return 1;
 }
 
+/* Copy a substring of `src` starting at `start` of length `len` into `dest`.
+ * If requested range is out of bounds dest is set to empty string.
+ */
 void substring(const char* src, int start, int len, char* dest) {
     int srcLen = strlen(src);
     
@@ -126,7 +153,8 @@ void substring(const char* src, int start, int len, char* dest) {
     dest[len] = '\0';
 }
 
-// Convert string to uppercase
+/* Convert string `s` to uppercase in-place.
+ */
 void toUpperCase(char* s)
 {
     int i = 0;
@@ -145,12 +173,16 @@ void toUpperCase(char* s)
     }
 }
 
+/* Convert ASCII letter `c` to lowercase; non-uppercase return unchanged.
+ */
 char toLower(char c) {
     if (c >= 'A' && c <= 'Z')
         return c + 32;
     return c;
 }
 
+/* Reverse string `s` in-place.
+ */
 void reverseString(char* s) {
     int i = 0;
     int j = myStrLen(s) - 1;
@@ -163,6 +195,8 @@ void reverseString(char* s) {
     }
 }
  
+/* Count vowels (a, e, i, o, u) in string `s` (case-insensitive).
+ */
 int countVowels(const char* s) {
     int count = 0;
     for (int i = 0; s[i] != '\0'; i++) {
@@ -173,6 +207,9 @@ int countVowels(const char* s) {
     return count;
 }
 
+/* Lexicographic comparison ignoring ASCII case.
+ * Returns negative/zero/positive like `strcmp`.
+ */
 int compareIgnoreCase(const char* a, const char* b) {
     while (*a != '\0' && *b != '\0') {
         char ca = toLower(*a);
@@ -187,6 +224,8 @@ int compareIgnoreCase(const char* a, const char* b) {
     return toLower(*a) - toLower(*b);
 }
 
+/* Remove spaces and tabs from `s` in-place.
+ */
 void removeSpaces(char *s)
 {
     int i, j = 0;
@@ -203,6 +242,8 @@ void removeSpaces(char *s)
     s[j] = '\0';
 }
 
+/* Remove all occurrences of character `c` from `s` in-place.
+ */
 void removeChar(char *s, char c)
 {
     int i, j = 0;
