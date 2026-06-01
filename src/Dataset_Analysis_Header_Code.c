@@ -84,6 +84,67 @@ void sortDatasetByField(Record arr[], int count, char *field)
     }
 }
 
+Record findMinByField(Record arr[], int count, char *field)
+{
+    Record min = arr[0];
+    for (int i = 1; i < count; i++)
+    {
+        if (strcmp(field, "id") == 0)
+        {
+            if (arr[i].id < min.id)
+                min = arr[i];
+        }
+        else if (strcmp(field, "score") == 0)
+        {
+            if (arr[i].score < min.score)
+                min = arr[i];
+        }
+        else if (strcmp(field, "name") == 0)
+        {
+            if (strcmp(arr[i].name, min.name) < 0)
+                min = arr[i];
+        }
+    }
+    return min;
+}
+
+Record findMaxByField(Record arr[], int count, char *field)
+{
+    Record max = arr[0];
+    for (int i = 1; i < count; i++)
+    {
+        if (strcmp(field, "id") == 0)
+        {
+            if (arr[i].id > max.id)
+                max = arr[i];
+        }
+        else if (strcmp(field, "score") == 0)
+        {
+            if (arr[i].score > max.score)
+                max = arr[i];
+        }
+        else if (strcmp(field, "name") == 0)
+        {
+            if (strcmp(arr[i].name, max.name) > 0)
+                max = arr[i];
+        }
+    }
+    return max;
+}
+
+float averageByField(Record arr[], int count, char *field)
+{
+    float sum = 0.0;
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(field, "score") == 0)
+        {
+            sum += arr[i].score;
+        }
+    }
+    return (count > 0) ? (sum / count) : 0.0;
+}
+
 int filterByCategory(Record arr[], int count, const char* category, Record result[], int maxResults) {
     int matched = 0;
     for (int i = 0; i < count; i++) {

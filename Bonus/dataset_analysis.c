@@ -11,7 +11,7 @@ int main(){
     clear_screen();
     do {
         printf("\n=== DATASET ANALYSIS MENU ===\n");
-        printf("1. Load dataset from file\n2. Display dataset\n3. Sort dataset by field\n4. Filter by category\n5. Save binary report\n0. Exit\nChoice: ");
+        printf("1. Load dataset from file\n2. Display dataset\n3. Sort dataset by field\n4. Find minimum by field\n5. Find maximum by field\n6. Calculate average by field\n7. Filter by category\n8. Save binary report\n0. Exit\nChoice: ");
         if (scanf("%d", &choice) <= 0) break;
         switch(choice) {
             case 1:
@@ -49,27 +49,62 @@ int main(){
                 break;
             case 4:
                 if (count > 0) {
+                    char field[50];
+                    printf("Enter field to find minimum (id, name, score): ");
+                    scanf("%s", field);
+                    Record min = findMinByField(arr, count, field);
+                    printf("Minimum by %s: ID: %d, Name: %s, Score: %.2f, Category: %s\n", field, min.id, min.name, min.score, min.category);
+                } else {
+                    printf("No dataset to analyze.\n");
+                }
+                break;
+            case 5:
+                if (count > 0) {
+                    char field[50];
+                    printf("Enter field to find maximum (id, name, score): ");
+                    scanf("%s", field);
+                    Record max = findMaxByField(arr, count, field);
+                    printf("Maximum by %s: ID: %d, Name: %s, Score: %.2f, Category: %s\n", field, max.id, max.name, max.score, max.category);
+                } else {
+                    printf("No dataset to analyze.\n");
+                }
+                break;
+            case 6:
+                if (count > 0) {
+                    char field[50];
+                    printf("Enter field to calculate average (score): ");
+                    scanf("%s", field);
+                    float avg = averageByField(arr, count, field);
+                    printf("Average by %s: %.2f\n", field, avg);
+                } else {
+                    printf("No dataset to analyze.\n");
+                }
+                break;
+            case 7:
+                if (count > 0) {
                     char category[50];
                     printf("Enter category to filter by: ");
                     scanf("%s", category);
                     Record filtered[MAX_1D];
-                    int filtered_count = filterByCategory(arr, count, category, filtered, MAX_1D);
-                    if (filtered_count > 0) {
-                        printf("Filtered records for category '%s':\n", category);
-                        displayDataset(filtered, filtered_count);
-                    } else {
-                        printf("No records found for category '%s'.\n", category);
+                    int filteredCount = filterByCategory(arr, count, category, filtered, MAX_1D);
+                    printf("Records in category '%s':\n", category);
+                    for (int i = 0; i < filteredCount; i++) {
+                        printf("ID: %d, Name: %s, Score: %.2f, Category: %s\n", filtered[i].id, filtered[i].name, filtered[i].score, filtered[i].category);
                     }
                 } else {
                     printf("No dataset to filter.\n");
                 }
                 break;
-            case 5:
+            case 8:
                 if (count > 0) {
                     char filename[100];
                     printf("Enter filename to save binary report: ");
                     scanf("%s", filename);
-                    saveBinaryReport(filename, arr, count);
+                    if (saveBinaryReport(filename, arr, count) == 0) {
+                        printf("Binary report saved to '%s' successfully.\n", filename);
+                    } else {
+                        printf("Failed to save binary report to '%s'.\n", filename);
+                    }
                 } else {
                     printf("No dataset to save.\n");
                 }
@@ -79,6 +114,7 @@ int main(){
                 break;
             default:
                 printf("Invalid choice. Please try again.\n");
+                break;
         }
     } while (choice != 0);
     return 0;
