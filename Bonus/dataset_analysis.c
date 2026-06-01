@@ -4,6 +4,18 @@
 
 static void clear_screen(void);
 
+/*
+ * When compiling this file directly (without the project's Makefile),
+ * the helper/source implementations may not be linked. If the build
+ * does not define `ADS2_SEPARATE_COMPILATION`, include the source
+ * files here so the file can compile standalone for quick testing.
+ */
+#ifndef ADS2_SEPARATE_COMPILATION
+#include "../src/Dataset_Analysis_Header_Code.c"
+#include "../src/file_utils.c"
+#include "../src/string_utils.c"
+#endif
+
 int main(){
     int choice = 1;
     Record arr[MAX_1D];

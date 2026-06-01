@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # DSA Demo executable (Bonus)
 add_executable(dsa_demo
-    ${CMAKE_CURRENT_SOURCE_DIR}/DSA-Demo.c
-    ${CMAKE_SOURCE_DIR}/src/Dataset_Analysis.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/dataset_analysis.c
+    ${CMAKE_SOURCE_DIR}/src/Dataset_Analysis_Header_Code.c
     ${CMAKE_SOURCE_DIR}/src/file_utils.c
     ${CMAKE_SOURCE_DIR}/src/string_utils.c
 )

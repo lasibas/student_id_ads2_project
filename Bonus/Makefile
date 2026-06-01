@@ -4,8 +4,8 @@ CFLAGS := -Wall -Wextra -g3 -I../include -DADS2_SEPARATE_COMPILATION
 SRC_DIR := ../src
 OUTPUT_DIR := output
 
-SOURCES := DSA-Demo.c $(SRC_DIR)/Dataset_Analysis.c $(SRC_DIR)/file_utils.c $(SRC_DIR)/string_utils.c
-TARGET := $(OUTPUT_DIR)/DSA-Demo
+SOURCES := dataset_analysis.c $(SRC_DIR)/Dataset_Analysis_Header_Code.c $(SRC_DIR)/file_utils.c $(SRC_DIR)/string_utils.c
+TARGET := $(OUTPUT_DIR)/dataset_analysis
 
 .PHONY: all clean
 
